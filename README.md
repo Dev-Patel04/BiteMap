@@ -103,3 +103,14 @@ feature/<story-number>-short-description
 ## 👥 Team
 
 > _(Team member names and assigned stories will be added here.)_
+
+## Daily Workflow 
+
+# Make sure you're on your dev branch before working
+git checkout dev
+# After making changes, commit and push
+git add .
+git commit -m "your message"
+git push
+# When ready to merge into main, open a PR on GitHub:
+# dev → main
