@@ -33,7 +33,23 @@ feature/<story-number>-short-description
 
 ---
 
-## 📋 User Stories
+## �️ Tech Stack
+
+### Frontend
+| Technology | Purpose |
+|------------|---------|
+| **HTML** | Page structure and semantic markup |
+| **CSS** | Styling, layout, and responsive design |
+| **JavaScript** | Interactivity and client-side logic |
+
+### Backend
+| Technology | Purpose |
+|------------|---------|
+| **Supabase** | Database (PostgreSQL), authentication, and real-time API |
+
+---
+
+## �📋 User Stories
 
 ### 1. Core Search & Discovery
 
