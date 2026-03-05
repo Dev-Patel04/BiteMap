@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BiteMap — Discover great restaurants, explore by cuisine, and track your dining adventures. Find cheap eats, hidden gems, and share reviews with friends." />
+  <title>BiteMap — Discover Your Next Favourite Bite</title>
+
+  <!-- Favicon emoji -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════ -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <!-- Logo -->
+      <a href="#" class="nav-logo" aria-label="BiteMap home">
+        <div class="logo-icon" aria-hidden="true">🍽️</div>
+        <span>Bite<strong>Map</strong></span>
+      </a>
+
+      <!-- Desktop Links -->
+      <ul class="nav-links" role="list">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#discover">Discover</a></li>
+      </ul>
+
+      <!-- Desktop CTA -->
+      <div class="nav-cta">
+        <a href="#" class="btn btn-ghost" id="nav-login">Log In</a>
+        <a href="#" class="btn btn-primary" id="nav-signup">Sign Up Free</a>
+      </div>
+
+      <!-- Hamburger (mobile) -->
+      <button
+        class="hamburger"
+        id="hamburger"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Mobile menu">
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#discover">Discover</a>
+    <a href="#" class="btn btn-ghost">Log In</a>
+    <a href="#" class="btn btn-primary">Sign Up Free</a>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════ -->
+  <header class="hero" id="hero">
+    <!-- Background decoration -->
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-bg-gradient"></div>
+      <div class="hero-grid"></div>
+    </div>
+
+    <div class="container">
+      <div class="hero-inner">
+
+        <!-- Left: Copy -->
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="dot" aria-hidden="true"></span>
+            Now in Beta — Join the waitlist
+          </div>
+
+          <h1 class="hero-title">
+            Discover Your<br />
+            Next Favourite<br />
+            <span class="accent">Bite.</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            BiteMap is your social restaurant discovery platform. Search by cuisine,
+            find hidden gems, see real value ratings, and share dining experiences
+            with friends — no account required to start exploring.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#discover" class="btn btn-primary btn-large" id="hero-explore-btn">
+              🔍 Start Exploring
+            </a>
+            <a href="#" class="btn-outline-large" id="hero-signup-btn">
+              Create Free Account
+            </a>
+          </div>
+
+          <div class="hero-stats" aria-label="BiteMap statistics">
+            <div class="stat-item">
+              <div class="stat-num">500+</div>
+              <div class="stat-label">Restaurants</div>
+            </div>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div class="stat-item">
+              <div class="stat-num">12k+</div>
+              <div class="stat-label">Reviews</div>
+            </div>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div class="stat-item">
+              <div class="stat-num">40+</div>
+              <div class="stat-label">Cuisines</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: UI Mockup -->
+        <div class="hero-visual" aria-hidden="true">
+          <div class="card-mockup">
+
+            <!-- Main card -->
+            <div class="mockup-main">
+              <div class="mockup-header">
+                <div class="mockup-avatar">🍜</div>
+                <div>
+                  <div class="mockup-name">Sakura Ramen House</div>
+                  <div class="mockup-meta">📍 123 Queen St W · Japanese</div>
+                </div>
+                <div class="mockup-stars" aria-label="4.8 out of 5 stars">
+                  ★★★★★
+                </div>
+              </div>
+
+              <div class="mockup-tags">
+                <span class="tag tag-cheap">💸 Cheap</span>
+                <span class="tag tag-good">👍 Good</span>
+                <span class="tag tag-cuisine">🍜 Ramen</span>
+              </div>
+
+              <div>
+                <div class="mockup-bar-label">
+                  <span>Value Score</span>
+                  <span>4.8 / 5</span>
+                </div>
+                <div class="mockup-bar">
+                  <div class="mockup-bar-fill" style="width: 96%"></div>
+                </div>
+              </div>
+
+              <div class="mockup-divider"></div>
+
+              <div class="mockup-footer">
+                <span class="mockup-footer-label">🌐 sakuraramen.ca</span>
+                <span class="mockup-footer-val">View Details →</span>
+              </div>
+            </div>
+
+            <!-- Floating badge: New Review -->
+            <div class="mockup-float" role="presentation">
+              <div class="float-icon">✅</div>
+              <div>
+                <div class="float-text">Review Added!</div>
+                <div class="float-sub">+15 XP earned</div>
+              </div>
+            </div>
+
+            <!-- Floating badge: Match -->
+            <div class="mockup-float-2" role="presentation">
+              <div class="float-icon" style="background: rgba(167,139,250,0.14);">🤝</div>
+              <div>
+                <div class="float-text">Friend Match!</div>
+                <div class="float-sub">Same taste profile</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════
+       FEATURES
+  ═══════════════════════════════════════ -->
+  <section class="features-section" id="features" aria-labelledby="features-heading">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Why BiteMap</span>
+        <h2 class="section-title" id="features-heading">
+          Everything you need to<br />find a great meal
+        </h2>
+        <p class="section-sub">
+          From quick anonymous searches to a full social dining profile — BiteMap has you covered at every table.
+        </p>
+      </div>
+
+      <div class="features-grid">
+
+        <article class="feature-card" id="feature-search">
+          <div class="feature-icon" aria-hidden="true">🔍</div>
+          <h3 class="feature-title">Anonymous Search</h3>
+          <p class="feature-desc">
+            Explore thousands of restaurants by name, cuisine, or tags without ever needing to sign up. Just search and go.
+          </p>
+        </article>
+
+        <article class="feature-card" id="feature-value">
+          <div class="feature-icon" aria-hidden="true">💸</div>
+          <h3 class="feature-title">Value Tags</h3>
+          <p class="feature-desc">
+            Every listing shows "Cheap" and "Good" tags at a glance, so you can skip the guesswork and eat smart.
+          </p>
+        </article>
+
+        <article class="feature-card" id="feature-info">
+          <div class="feature-icon" aria-hidden="true">📍</div>
+          <h3 class="feature-title">Full Restaurant Info</h3>
+          <p class="feature-desc">
+            View addresses, websites, and hours in one place. No more bouncing between apps to plan your outing.
+          </p>
+        </article>
+
+        <article class="feature-card" id="feature-reviews">
+          <div class="feature-icon" aria-hidden="true">⭐</div>
+          <h3 class="feature-title">Ratings & Reviews</h3>
+          <p class="feature-desc">
+            Rate restaurants and leave honest comments that help the community make better dining decisions.
+          </p>
+        </article>
+
+        <article class="feature-card" id="feature-cuisine">
+          <div class="feature-icon" aria-hidden="true">🌎</div>
+          <h3 class="feature-title">Cuisine Explorer</h3>
+          <p class="feature-desc">
+            Filter by cuisine type or tags to discover exactly the food you're craving — from sushi to tacos.
+          </p>
+        </article>
+
+        <article class="feature-card" id="feature-social">
+          <div class="feature-icon" aria-hidden="true">👥</div>
+          <h3 class="feature-title">Social Profiles</h3>
+          <p class="feature-desc">
+            Follow friends, see what they're recommending, and find like-minded food explorers to connect with.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       HOW IT WORKS
+  ═══════════════════════════════════════ -->
+  <section class="how-section" id="how-it-works" aria-labelledby="how-heading">
+    <div class="container">
+      <div class="section-header" style="text-align: center;">
+        <span class="section-label">How It Works</span>
+        <h2 class="section-title" id="how-heading">
+          Three steps to your next<br />great dining experience
+        </h2>
+        <p class="section-sub" style="margin: 0 auto;">
+          BiteMap is designed to get you from curious to table in minutes.
+        </p>
+      </div>
+
+      <div class="steps-grid" role="list">
+
+        <div class="step-item" role="listitem" id="step-search">
+          <div class="step-num" aria-hidden="true">1</div>
+          <div class="step-emoji" aria-hidden="true">🔍</div>
+          <h3 class="step-title">Search</h3>
+          <p class="step-desc">
+            Type a cuisine, restaurant name, or browse by tags — no login required. Works for everyone, instantly.
+          </p>
+        </div>
+
+        <div class="step-item" role="listitem" id="step-discover">
+          <div class="step-num" aria-hidden="true">2</div>
+          <div class="step-emoji" aria-hidden="true">✨</div>
+          <h3 class="step-title">Discover</h3>
+          <p class="step-desc">
+            Browse results with value tags, ratings, and restaurant details. Find the place that hits every mark.
+          </p>
+        </div>
+
+        <div class="step-item" role="listitem" id="step-track">
+          <div class="step-num" aria-hidden="true">3</div>
+          <div class="step-emoji" aria-hidden="true">📝</div>
+          <h3 class="step-title">Track & Share</h3>
+          <p class="step-desc">
+            Create a profile to rate spots, leave reviews, follow friends, and build your personal dining map.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       CTA BANNER
+  ═══════════════════════════════════════ -->
+  <section class="cta-section" id="discover" aria-labelledby="cta-heading">
+    <div class="container">
+      <div class="cta-box">
+        <h2 class="section-title" id="cta-heading">
+          Ready to find your<br />next favourite spot?
+        </h2>
+        <p class="section-sub">
+          Join BiteMap today and start discovering restaurants that actually match your taste — for free.
+        </p>
+        <div class="cta-actions">
+          <a href="#" class="btn btn-primary btn-large" id="cta-signup-btn">
+            🚀 Get Started Free
+          </a>
+          <a href="#features" class="btn-outline-large" id="cta-learn-btn">
+            Learn More
+          </a>
+        </div>
+        <p class="cta-note">No credit card required · Anonymous browsing always available</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">Bite<strong>Map</strong> 🍽️</div>
+        <div class="footer-tagline">Your social restaurant discovery platform.</div>
+      </div>
+
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </nav>
+
+      <div class="footer-copy">
+        &copy; <span id="footer-year"></span> BiteMap. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script>
+    // Dynamic year in footer
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
