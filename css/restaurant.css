@@ -1,0 +1,546 @@
+/*
+ * css/restaurant.css
+ * Core styles for the restaurant detail page based on the Figma mockup.
+ */
+
+.restaurant-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-main, #F7F7F7);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Custom Navbar Overrides for this page to match mockup */
+.detail-navbar {
+  background: var(--bg-main, #F7F7F7);
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.detail-navbar .nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: #111;
+  font-size: 1.25rem;
+  margin-right: auto;
+}
+
+.detail-navbar .logo-icon {
+  width: 32px;
+  height: 32px;
+  background: #F57C00;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.detail-navbar .nav-middle {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.detail-navbar .nav-middle a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.detail-navbar .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FEF4E8;
+  color: #F57C00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Hero Section */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 2rem auto 1rem;
+  padding: 0 2rem;
+}
+
+.hero-image-large {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 400px;
+}
+
+.hero-image-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-image-small-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-image-small {
+  border-radius: 20px;
+  overflow: hidden;
+  height: 200px; /* Mockup shows a shorter image aligned to top */
+}
+
+.hero-image-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 3rem 2.5rem 2rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+  color: white;
+}
+
+.hero-badge-trending {
+  background: #F57C00;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.restaurant-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Quick Info Bar */
+.quick-info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto 2.5rem;
+  padding: 0 2rem;
+}
+
+.quick-info-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.rating-block {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-score {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #F57C00;
+}
+
+.rating-stars {
+  color: #F57C00;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+}
+
+.rating-count {
+  color: #6B7280;
+  font-size: 0.9rem;
+}
+
+.restaurant-meta {
+  color: #4B5563;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.status-open {
+  color: #10B981;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.pill-group {
+  display: flex;
+  background-color: white;
+  border-radius: 100px;
+  border: 1px solid #E5E7EB;
+  overflow: hidden;
+}
+
+.btn-group-pill {
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.want-to-go {
+  color: #F57C00;
+}
+
+.visited {
+  background: #F3F4F6;
+  color: #4B5563;
+}
+
+/* Main Content Dual Column */
+.restaurant-content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 4rem;
+  padding: 0 2rem;
+}
+
+.section-header-block {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.section-icon {
+  font-size: 1.25rem;
+  color: #F57C00;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: #111;
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Detail Cards */
+.info-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.info-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.info-card-icon {
+  color: #F57C00;
+  font-size: 1.25rem;
+  margin-top: 2px;
+}
+
+.info-card-content h4 {
+  margin: 0 0 0.25rem;
+  font-size: 0.75rem;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.website-link {
+  color: #F57C00;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.address-text {
+  color: #111;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Reviews */
+.reviews-section {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.reviews-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.write-review-link {
+  color: #F57C00;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.review-item {
+  border-bottom: 1px solid #F3F4F6;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.review-user-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.review-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.review-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0 0 0.1rem;
+  color: #111;
+}
+
+.review-time {
+  font-size: 0.75rem;
+  color: #6B7280;
+  margin: 0;
+}
+
+.review-stars {
+  color: #F57C00;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.review-text {
+  color: #4B5563;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin: 0 0 1rem;
+}
+
+.review-photos {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.review-photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* Right Sidebar: Friends */
+.sidebar-card {
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.friend-item:last-child {
+  margin-bottom: 0;
+}
+
+.friend-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.friend-info {
+  flex: 1;
+}
+
+.friend-name {
+  font-weight: 600;
+  margin: 0 0 0.15rem;
+  font-size: 0.9rem;
+  color: #111;
+}
+
+.friend-meta {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #9CA3AF;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.friend-check {
+  color: #F57C00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF3E0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 10px;
+}
+
+.btn-outline-full {
+  display: block;
+  width: 100%;
+  padding: 0.6rem;
+  text-align: center;
+  border: 1px solid #FCDCC1;
+  border-radius: 100px;
+  background: white;
+  color: #F57C00;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: all 0.2s;
+}
+
+.btn-outline-full:hover {
+  background: #FFF3E0;
+}
+
+/* Right Sidebar: Insider Tip */
+.insider-tip-card {
+  background: #FEF4E8;
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.insider-title {
+  color: #F57C00;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0 0 0.5rem;
+}
+
+.insider-text {
+  color: #4B5563;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Footer Overrides */
+.detail-footer {
+  background: white;
+  padding: 3rem 0;
+  margin-top: auto;
+  border-top: 1px solid #E5E7EB;
+}
+
+.detail-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.footer-col h4 {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #111;
+}
+
+.footer-col a {
+  display: block;
+  color: #6B7280;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  color: #9CA3AF;
+  font-size: 1.2rem;
+}
+
+.footer-bottom {
+  text-align: center;
+  color: #9CA3AF;
+  font-size: 0.8rem;
+  margin-top: 3rem;
+}
