@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BiteMap - My Profile</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/profile.css" />
+</head>
+<body class="profile-page">
+
+  <!-- TOP NAV BAR -->
+  <header class="profile-topbar">
+    <div class="topbar-content">
+      <a href="dashboard.html" class="profile-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+        </div>
+        <span class="brand-name">Bite<strong>Map</strong></span>
+      </a>
+
+      <div class="topbar-right">
+        <button class="icon-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+        <button class="icon-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        </button>
+        <button class="btn btn-primary">Post Review</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="profile-container">
+    
+    <!-- Profile Card -->
+    <section class="profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar-wrapper">
+          <img id="profile-avatar" src="https://ui-avatars.com/api/?name=User&background=ea7a2b&color=fff&size=150" alt="User" class="profile-avatar" />
+          <div class="verified-badge">
+            <svg viewBox="0 0 24 24" fill="white" width="12" height="12"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+        </div>
+
+        <div class="profile-info">
+          <div class="profile-title-row">
+            <div class="profile-name-area">
+              <h1 id="profile-name" class="profile-name">Loading...</h1>
+              <span id="profile-handle" class="profile-handle">@...</span>
+            </div>
+            <div class="profile-actions">
+              <button class="btn-share">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              </button>
+            </div>
+          </div>
+          <p id="profile-bio" class="profile-bio">Loading bio...</p>
+          <div class="profile-tags">
+            <span class="profile-tag gold-tag"><span class="tag-icon">🏆</span> SUPER EATER</span>
+            <span class="profile-tag grey-tag"><span class="tag-icon">🔥</span> ON FIRE</span>
+            <span class="profile-tag grey-tag"><span class="tag-icon">⚔️</span> REVIEWER ELITE</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Row -->
+    <section class="stats-row">
+      <div class="stat-card">
+        <span class="stat-label">Reviews</span>
+        <span id="stat-reviews" class="stat-value">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Followers</span>
+        <span id="stat-followers" class="stat-value">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Following</span>
+        <span id="stat-following" class="stat-value">0</span>
+      </div>
+      <div class="stat-card level-card">
+        <span class="stat-label orange-text">YOUR LEVEL</span>
+        <span id="stat-level" class="stat-value orange-text">1</span>
+        <div class="level-progress-wrapper">
+          <div class="level-progress-bar">
+            <div id="level-progress-fill" class="level-progress-fill" style="width: 0%"></div>
+          </div>
+          <span id="stat-xp" class="stat-subtext">0 XP</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section class="recommendations-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="orange-icon">🍕</span> <span id="recs-title">Your Top Picks</span>
+        </h2>
+        <a href="explore.html" class="view-all">View All</a>
+      </div>
+
+      <div id="recs-grid" class="recs-grid">
+        <p style="color: #999; grid-column: 1 / -1; text-align: center; padding: 40px;">
+          Start exploring and reviewing restaurants to see your top picks here!
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Supabase + Profile Script -->
+  <script type="module" src="js/supabase.js"></script>
+  <script type="module" src="js/profile.js"></script>
+</body>
+</html>
