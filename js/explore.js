@@ -70,11 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchSearchResults(query) {
     try {
-      // Query Supabase
+      // Query Supabase — match on name OR cuisine_tag
       const { data, error } = await supabase
         .from('restaurants')
-        .select('id, name, city')
-        .ilike('name', `%${query}%`)
+        .select('id, name, city, cuisine_tag')
+        .or(`name.ilike.%${query}%,cuisine_tag.ilike.%${query}%`)
         .limit(5);
 
       if (error) throw error;
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="dropdown-icon">🍽️</span>
         <div class="dropdown-details">
           <div class="dropdown-name">${highlightedName}</div>
-          <div class="dropdown-city">${restaurant.city || ''}</div>
+          <div class="dropdown-city">${restaurant.cuisine_tag || ''} · ${restaurant.city || ''}</div>
         </div>
       `;
 
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const { data, error } = await supabase
         .from('restaurants')
         .select('*')
-        .ilike('name', `%${query}%`);
+        .or(`name.ilike.%${query}%,cuisine_tag.ilike.%${query}%`);
 
       if (error) throw error;
 
@@ -164,8 +164,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const pageSubtitle = document.getElementById('page-subtitle');
   const cuisineLinks = document.querySelectorAll('.left-sidebar .nav-item[data-cuisine]');
 
+  // State tracking
+  let currentCuisine = 'all';
+  let activeFilters = new Set(); // tracks active price filters like 'Cheap', 'Expensive'
+
   // Initialize with 'all'
-  fetchAndRenderRestaurants('all');
+  fetchAndRenderRestaurants();
+
+  // --- Filter Pills ---
+  const filterPills = document.querySelectorAll('.filter-pill[data-filter]');
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      const filter = pill.getAttribute('data-filter');
+
+      // Toggle active state
+      if (activeFilters.has(filter)) {
+        activeFilters.delete(filter);
+        pill.classList.remove('active');
+      } else {
+        activeFilters.add(filter);
+        pill.classList.add('active');
+      }
+
+      // Re-fetch with current cuisine + new filters
+      fetchAndRenderRestaurants();
+    });
+  });
 
   // Listen to sidebar clicks
   cuisineLinks.forEach(link => {
@@ -176,35 +200,41 @@ document.addEventListener('DOMContentLoaded', () => {
       cuisineLinks.forEach(l => l.classList.remove('active'));
       link.classList.add('active');
       
-      const cuisine = link.getAttribute('data-cuisine');
+      currentCuisine = link.getAttribute('data-cuisine');
       // Remove any non-ASCII characters (emojis) to get the clean cuisine name
       const cuisineName = link.innerText.replace(/[^\x00-\x7F]/g, '').trim();
       
       pageTitle.textContent = cuisineName;
       pageSubtitle.textContent = 'Loading restaurants...';
       
-      fetchAndRenderRestaurants(cuisine);
+      fetchAndRenderRestaurants();
     });
   });
 
-  async function fetchAndRenderRestaurants(cuisine) {
+  async function fetchAndRenderRestaurants() {
     try {
       restaurantList.innerHTML = '<p style="padding: 2rem;">Fetching restaurants...</p>';
       
       let query = supabase.from('restaurants').select('*');
       
-      if (cuisine !== 'all') {
-        query = query.eq('cuisine_tag', cuisine);
+      if (currentCuisine !== 'all') {
+        query = query.eq('cuisine_tag', currentCuisine);
       }
-      
-      // We can add ordering or limiting here if needed
-      // query = query.limit(20);
+
+      // Apply price filters (OR between active price filters)
+      const priceFilters = [...activeFilters].filter(f => f !== 'Visited');
+      if (priceFilters.length === 1) {
+        query = query.eq('price_tag', priceFilters[0]);
+      } else if (priceFilters.length > 1) {
+        query = query.in('price_tag', priceFilters);
+      }
 
       const { data, error } = await query;
 
       if (error) throw error;
 
-      pageSubtitle.textContent = `Found ${data.length} restaurants in this category`;
+      const filterLabel = activeFilters.size > 0 ? ` (${[...activeFilters].join(', ')})` : '';
+      pageSubtitle.textContent = `Found ${data.length} restaurants${filterLabel}`;
       renderRestaurantCards(data);
       
     } catch (err) {
