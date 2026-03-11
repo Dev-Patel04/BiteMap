@@ -27,12 +27,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300); // 300ms delay
   });
 
-  // Handle clear button click
+  // Handle Enter key to search and show results in main area
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const query = searchInput.value.trim();
+      if (query.length >= 2) {
+        hideDropdown();
+        searchByName(query);
+      }
+    }
+  });
+
+  // Handle clear button click — reset to all cuisines
   searchClear.addEventListener('click', () => {
     searchInput.value = '';
     searchClear.style.display = 'none';
     hideDropdown();
     searchInput.focus();
+    // Reset active sidebar to "All Cuisines"
+    const cuisineLinks = document.querySelectorAll('.left-sidebar .nav-item[data-cuisine]');
+    cuisineLinks.forEach(l => l.classList.remove('active'));
+    const allLink = document.querySelector('.left-sidebar .nav-item[data-cuisine="all"]');
+    if (allLink) allLink.classList.add('active');
+    document.getElementById('page-title').textContent = 'All Cuisines';
+    fetchAndRenderRestaurants('all');
   });
 
   // Hide dropdown when clicking outside
@@ -92,10 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
 
       item.addEventListener('click', () => {
-        // Here you would typically navigate to the restaurant page or filter the main view
-        // For now, we'll just fill the input
         searchInput.value = restaurant.name;
+        searchClear.style.display = 'inline';
         hideDropdown();
+        // Show this restaurant in the main area
+        searchByName(restaurant.name);
       });
 
       searchDropdown.appendChild(item);
@@ -106,6 +126,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function hideDropdown() {
     searchDropdown.classList.add('hidden');
+  }
+
+  // Search by name and render results in the main restaurant list area
+  async function searchByName(query) {
+    const restaurantList = document.getElementById('restaurant-list');
+    const pageTitle = document.getElementById('page-title');
+    const pageSubtitle = document.getElementById('page-subtitle');
+
+    // Deselect sidebar cuisines
+    document.querySelectorAll('.left-sidebar .nav-item[data-cuisine]').forEach(l => l.classList.remove('active'));
+
+    pageTitle.textContent = `Search: "${query}"`;
+    pageSubtitle.textContent = 'Searching...';
+    restaurantList.innerHTML = '<p style="padding: 2rem;">Searching restaurants...</p>';
+
+    try {
+      const { data, error } = await supabase
+        .from('restaurants')
+        .select('*')
+        .ilike('name', `%${query}%`);
+
+      if (error) throw error;
+
+      pageSubtitle.textContent = `Found ${data.length} restaurant${data.length !== 1 ? 's' : ''} matching "${query}"`;
+      renderRestaurantCards(data);
+    } catch (err) {
+      console.error('Search error:', err);
+      pageSubtitle.textContent = 'Error searching restaurants.';
+      restaurantList.innerHTML = '<p style="color: red; padding: 2rem;">Failed to search. Please try again.</p>';
+    }
   }
 
   // --- Dynamic Cuisine Filtering ---
@@ -217,7 +267,71 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
+      // Track click for recent views
+      card.addEventListener('click', () => {
+        addToRecentViews(restaurant);
+      });
+
       restaurantList.appendChild(card);
     });
   }
+
+  // --- Recent Views ---
+  const RECENT_VIEWS_KEY = 'bitemap_recent_views';
+  const MAX_RECENT = 5;
+
+  function loadRecentViews() {
+    const recentList = document.getElementById('recent-views-list');
+    const stored = JSON.parse(localStorage.getItem(RECENT_VIEWS_KEY) || '[]');
+
+    if (stored.length === 0) {
+      recentList.innerHTML = '<p style="color: #999; font-size: 0.85rem;">No recent views yet.</p>';
+      return;
+    }
+
+    recentList.innerHTML = '';
+    stored.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'recent-card';
+      card.style.cursor = 'pointer';
+      card.innerHTML = `
+        <span class="recent-category">${r.cuisine_tag || 'Restaurant'}</span>
+        <h4>${r.name}</h4>
+        <div class="recent-rating">
+          <span class="star">★</span> ${r.city || 'Ontario'}
+        </div>
+      `;
+      // Clicking a recent view searches for it
+      card.addEventListener('click', () => {
+        searchInput.value = r.name;
+        searchClear.style.display = 'inline';
+        searchByName(r.name);
+      });
+      recentList.appendChild(card);
+    });
+  }
+
+  function addToRecentViews(restaurant) {
+    let stored = JSON.parse(localStorage.getItem(RECENT_VIEWS_KEY) || '[]');
+
+    // Remove if already exists (to move to top)
+    stored = stored.filter(r => r.id !== restaurant.id);
+
+    // Add to front
+    stored.unshift({
+      id: restaurant.id,
+      name: restaurant.name,
+      city: restaurant.city,
+      cuisine_tag: restaurant.cuisine_tag
+    });
+
+    // Cap at MAX_RECENT
+    if (stored.length > MAX_RECENT) stored = stored.slice(0, MAX_RECENT);
+
+    localStorage.setItem(RECENT_VIEWS_KEY, JSON.stringify(stored));
+    loadRecentViews();
+  }
+
+  // Load recent views on page init
+  loadRecentViews();
 });
