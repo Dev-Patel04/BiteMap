@@ -34,33 +34,53 @@
         <div class="sidebar-heading">Cuisines</div>
         <ul class="nav-list">
           <li>
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item active" data-cuisine="all">
               <span class="nav-icon">🔠</span> All Cuisines
             </a>
           </li>
           <li>
-            <a href="#" class="nav-item active">
-              <span class="nav-icon">🍣</span> Japanese
+            <a href="#" class="nav-item" data-cuisine="Pub/Bar Food">
+              <span class="nav-icon">🍔</span> Pub/Bar Food
             </a>
           </li>
           <li>
-            <a href="#" class="nav-item">
+            <a href="#" class="nav-item" data-cuisine="Fine Dining">
+              <span class="nav-icon">🍷</span> Fine Dining
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-cuisine="Cafe/Bakery">
+              <span class="nav-icon">☕</span> Cafe/Bakery
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-cuisine="Canadian">
+              <span class="nav-icon">🍁</span> Canadian
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-cuisine="Italian">
               <span class="nav-icon">🍕</span> Italian
             </a>
           </li>
           <li>
-            <a href="#" class="nav-item">
-              <span class="nav-icon">🌮</span> Mexican
+            <a href="#" class="nav-item" data-cuisine="Seafood">
+              <span class="nav-icon">🦞</span> Seafood
             </a>
           </li>
           <li>
-            <a href="#" class="nav-item">
-              <span class="nav-icon">🍜</span> Chinese
+            <a href="#" class="nav-item" data-cuisine="Asian">
+              <span class="nav-icon">🍜</span> Asian
             </a>
           </li>
           <li>
-            <a href="#" class="nav-item">
-              <span class="nav-icon">🥐</span> French
+            <a href="#" class="nav-item" data-cuisine="BBQ/Smokehouse">
+              <span class="nav-icon">🔥</span> BBQ/Smokehouse
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-cuisine="Steakhouse">
+              <span class="nav-icon">🥩</span> Steakhouse
             </a>
           </li>
         </ul>
@@ -107,16 +127,16 @@
 
       <!-- Filters -->
       <div class="filters-container">
-        <button class="filter-pill active">Cheap <span>↓</span></button>
-        <button class="filter-pill">Expensive <span>↓</span></button>
-        <button class="filter-pill">Visited <span>↓</span></button>
+        <button class="filter-pill" data-filter="Cheap">Cheap <span>↓</span></button>
+        <button class="filter-pill" data-filter="Expensive">Expensive <span>↓</span></button>
+        <button class="filter-pill" data-filter="Visited">Visited <span>↓</span></button>
       </div>
 
       <!-- Results Header -->
       <div class="page-header">
         <div>
-          <h1 class="page-title">Sushi in Tokyo</h1>
-          <p class="page-subtitle">Found 42 restaurants in this area</p>
+          <h1 class="page-title" id="page-title">All Cuisines</h1>
+          <p class="page-subtitle" id="page-subtitle">Loading restaurants...</p>
         </div>
         <div class="sort-by">
           Sort by: Relevance ⇅
@@ -124,166 +144,20 @@
       </div>
 
       <!-- Restaurant List -->
-      <div class="restaurant-list">
-        
-        <!-- Sushi Zen -->
-        <article class="restaurant-card">
-          <div class="card-image-container">
-            <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=400&q=80" alt="Sushi Zen" class="card-image" />
-            <div class="card-rating">
-              <span class="star">★</span> 4.8
-            </div>
-          </div>
-          <div class="card-content">
-            <div class="card-top">
-              <div>
-                <span class="card-category">Top Rated</span>
-                <h2 class="card-title">Sushi Zen</h2>
-              </div>
-              <span class="bookmark-btn">🔖</span>
-            </div>
-            
-            <div class="card-location">
-              📍 123 Main St, Chuo City, Tokyo
-            </div>
-            
-            <div class="card-tags">
-              <span class="tag">OMAKASE</span>
-              <span class="tag">PREMIUM</span>
-            </div>
-            
-            <div class="card-footer">
-              <a href="#" class="visit-link">Visit website ↗</a>
-              <button class="view-menu-btn">View Menu</button>
-            </div>
-          </div>
-        </article>
-
-        <!-- Maki House -->
-        <article class="restaurant-card">
-          <div class="card-image-container">
-            <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=400&q=80" alt="Maki House" class="card-image" />
-            <div class="card-rating">
-              <span class="star">★</span> 4.5
-            </div>
-          </div>
-          <div class="card-content">
-            <div class="card-top">
-              <div>
-                <span class="card-category">Quick Bites</span>
-                <h2 class="card-title">Maki House</h2>
-              </div>
-              <span class="bookmark-btn">🔖</span>
-            </div>
-            
-            <div class="card-location">
-              📍 456 Shibuya Crossing, Tokyo
-            </div>
-            
-            <div class="card-tags">
-              <span class="tag">CHEAP</span>
-              <span class="tag">CASUAL</span>
-            </div>
-            
-            <div class="card-footer">
-              <a href="#" class="visit-link">Visit website ↗</a>
-              <button class="view-menu-btn">View Menu</button>
-            </div>
-          </div>
-        </article>
-
-        <!-- Tsukiji Gourmet -->
-        <article class="restaurant-card">
-          <div class="card-image-container">
-            <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=400&q=80" alt="Tsukiji Gourmet" class="card-image" />
-            <div class="card-rating">
-              <span class="star">★</span> 4.9
-            </div>
-          </div>
-          <div class="card-content">
-            <div class="card-top">
-              <div>
-                <span class="card-category">Best Ambience</span>
-                <h2 class="card-title">Tsukiji Gourmet</h2>
-              </div>
-              <span class="bookmark-btn">🔖</span>
-            </div>
-            
-            <div class="card-location">
-              📍 5-2-1 Tsukiji, Chuo City, Tokyo
-            </div>
-            
-            <div class="card-tags">
-              <span class="tag">VISITED</span>
-              <span class="tag">FRESH FISH</span>
-            </div>
-            
-            <div class="card-footer">
-              <a href="#" class="visit-link">Visit website ↗</a>
-              <button class="view-menu-btn">View Menu</button>
-            </div>
-          </div>
-        </article>
-
+      <div class="restaurant-list" id="restaurant-list">
+        <!-- Dynamic restaurant cards will be injected here -->
       </div>
 
     </main>
 
     <!-- RIGHT SIDEBAR -->
     <aside class="right-sidebar">
-      <!-- Trending Section -->
-      <section class="right-section">
-        <h3>Trending in Tokyo</h3>
-        <div class="trending-list">
-          
-          <div class="trending-item">
-            <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=150&q=80" alt="Ramen" class="trending-img" />
-            <div class="trending-info">
-              <h4>Top 10 Ramen Spots</h4>
-              <div class="trending-meta">Updated today • 4.2k reads</div>
-            </div>
-          </div>
-
-          <div class="trending-item">
-            <img src="https://images.unsplash.com/photo-1496116218417-1a781b1c416c?auto=format&fit=crop&w=150&q=80" alt="Dumplings" class="trending-img" />
-            <div class="trending-info">
-              <h4>Dumpling Guide 2024</h4>
-              <div class="trending-meta">Yesterday • 1.8k reads</div>
-            </div>
-          </div>
-
-          <div class="trending-item">
-            <img src="https://images.unsplash.com/photo-1558941777-6fcbdadfbbfd?auto=format&fit=crop&w=150&q=80" alt="Street Food" class="trending-img" />
-            <div class="trending-info">
-              <h4>Hidden Street Food</h4>
-              <div class="trending-meta">2 days ago • 8k reads</div>
-            </div>
-          </div>
-
-        </div>
-      </section>
 
       <!-- Recent Views Section -->
       <section class="right-section">
         <h3>Your Recent Views</h3>
-        <div class="recent-list">
-          
-          <div class="recent-card">
-            <span class="recent-category">Restaurant</span>
-            <h4>Ichiraku Ramen</h4>
-            <div class="recent-rating">
-              <span class="star">★</span> 4.7 (1.2k reviews)
-            </div>
-          </div>
-
-          <div class="recent-card">
-            <span class="recent-category">Izakaya</span>
-            <h4>Omoide Yokocho</h4>
-            <div class="recent-rating">
-              <span class="star">★</span> 4.4 (850 reviews)
-            </div>
-          </div>
-
+        <div class="recent-list" id="recent-views-list">
+          <p style="color: #999; font-size: 0.85rem;">No recent views yet.</p>
         </div>
       </section>
 
