@@ -13,6 +13,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/dashboard.css" /> <!-- shared variables/styles potentially -->
   <link rel="stylesheet" href="css/explore.css" />
+  <link rel="stylesheet" href="css/explore-search.css" />
 </head>
 <body>
 
@@ -89,10 +90,13 @@
       
       <!-- Topbar -->
       <header class="topbar">
-        <div class="search-bar">
+        <div class="search-bar" style="position: relative;">
           <span class="search-icons">🔍</span>
-          <input type="text" value="Sushi" placeholder="Search..." />
-          <span class="search-icons" style="cursor: pointer;">✖️</span>
+          <input type="text" id="search-input" value="" placeholder="Search..." autocomplete="off" />
+          <span class="search-icons" id="search-clear" style="cursor: pointer; display: none;">✖️</span>
+          
+          <!-- Autocomplete Dropdown -->
+          <div id="search-dropdown" class="search-dropdown hidden"></div>
         </div>
         <div class="topbar-actions">
           <button class="icon-btn">⚙️</button>
@@ -104,7 +108,7 @@
       <!-- Filters -->
       <div class="filters-container">
         <button class="filter-pill active">Cheap <span>↓</span></button>
-        <button class="filter-pill">Good <span>↓</span></button>
+        <button class="filter-pill">Expensive <span>↓</span></button>
         <button class="filter-pill">Visited <span>↓</span></button>
       </div>
 
@@ -285,6 +289,8 @@
 
     </aside>
 
+    <!-- Custom Scripts -->
+    <script type="module" src="js/explore.js"></script>
   </div>
 
 </body>
