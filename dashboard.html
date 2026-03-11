@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiteMap - Dashboard</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <a href="dashboard.html" class="brand">
+          <div class="brand-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="white"/>
+            </svg>
+          </div>
+          <span class="brand-name">Bite<strong>Map</strong></span>
+        </a>
+
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-item active">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Home
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            Explore
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            Friends
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><line x1="12" y1="7" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            My Reviews
+          </a>
+          <a href="#" class="nav-item">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Settings
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="user-card">
+          <div class="user-card-header">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Avatar" class="user-avatar" />
+            <div class="user-info">
+              <div class="user-name">Alex Chen</div>
+              <div class="user-title">Sushi Scout</div>
+            </div>
+          </div>
+          <div class="level-info">
+            <span class="level-label">LEVEL 12</span>
+            <span class="level-percent">75% TO LEVEL 13</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: 75%"></div>
+          </div>
+          <div class="xp-text">250 XP to next rank</div>
+        </div>
+
+        <button class="btn btn-profile">View Profile</button>
+        <button class="btn btn-logout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="search-container">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" placeholder="Search for sushi, ramen, or hidden gems..." class="search-input" />
+        </div>
+        <div class="topbar-actions">
+          <button class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          </button>
+          <button class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          </button>
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile" class="header-avatar" />
+        </div>
+      </header>
+
+      <!-- Dashboard Sections -->
+      <div class="content-body">
+        
+        <!-- Recommended Section -->
+        <section class="section">
+          <div class="section-header">
+            <h2 class="section-title">Recommended for You</h2>
+            <a href="#" class="see-all">See all matches</a>
+          </div>
+
+          <div class="cards-grid">
+            <!-- Card 1 -->
+            <div class="restaurant-card">
+              <div class="card-image-wrapper">
+                <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=600&q=80" alt="Sushi Bar" class="card-image">
+                <div class="rating-badge">
+                  <span class="star-icon">★</span> 4.9
+                </div>
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">Omonoia Sushi Bar</h3>
+                <p class="card-subtitle">Japanese • $$$ • 1.2 miles</p>
+                <div class="card-tags">
+                  <span class="tag tag-grey">TOP RATED</span>
+                  <span class="tag tag-orange">FRESH FISH</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="restaurant-card">
+              <div class="card-image-wrapper">
+                <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=600&q=80" alt="Sushi Rolls" class="card-image">
+                <div class="rating-badge">
+                  <span class="star-icon">★</span> 4.7
+                </div>
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">Tokyo Night</h3>
+                <p class="card-subtitle">Japanese Fusion • $$ • 0.8 miles</p>
+                <div class="card-tags">
+                  <span class="tag tag-grey">GREAT VALUE</span>
+                  <span class="tag tag-orange">BEST SAKE</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="restaurant-card">
+              <div class="card-image-wrapper">
+                <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=600&q=80" alt="Ramen" class="card-image">
+                <div class="rating-badge">
+                  <span class="star-icon">★</span> 4.8
+                </div>
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">Hidden Dragon</h3>
+                <p class="card-subtitle">Traditional • $$$ • 2.5 miles</p>
+                <div class="card-tags">
+                  <span class="tag tag-grey">MICHELIN TIP</span>
+                  <span class="tag tag-orange">AUTHENTIC</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Recent Activity Section -->
+        <section class="section">
+          <div class="section-header">
+            <h2 class="section-title">Recent Activity from Friends</h2>
+            <button class="more-opts-btn">•••</button>
+          </div>
+
+          <div class="activity-feed">
+            <!-- Activity Item 1 -->
+            <div class="activity-item">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Jenkins" class="activity-avatar" />
+              <div class="activity-content">
+                <div class="activity-meta">
+                  <span class="activity-user">Sarah Jenkins</span> reviewed <span class="activity-restaurant">Kaze Sushi Lounge</span>
+                </div>
+                <div class="activity-time">2 hours ago</div>
+                <div class="activity-stars">★★★★★</div>
+                <p class="activity-review">"The omakase experience here is absolutely unrivaled. Make sure to try the torched fatty tuna—it literally melts in your mouth!"</p>
+                <div class="activity-actions">
+                  <button class="action-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    24
+                  </button>
+                  <button class="action-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    5
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity Item 2 -->
+            <div class="activity-item">
+              <img src="https://randomuser.me/api/portraits/men/46.jpg" alt="Mike Chen" class="activity-avatar" />
+              <div class="activity-content">
+                <div class="activity-meta">
+                  <span class="activity-user">Mike Chen</span> checked in at <span class="activity-restaurant">Ramen-Ya</span>
+                </div>
+                <div class="activity-time">5 hours ago</div>
+                <div class="activity-photo-wrapper">
+                  <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=800&q=80" alt="Ramen-Ya photo" class="activity-photo">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/supabase.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
