@@ -16,11 +16,7 @@
   <!-- NAVBAR -->
   <nav class="detail-navbar">
     <a href="dashboard.html" class="nav-logo">
-      <div class="logo-icon">
-        <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16">
-          <path d="M11 2L7.6 12h6.8L11 2zM15 13H5l-1.5 5h11L15 13zm-9.35 6.5C4.2 19.5 3 20.7 3 22h14c0-1.3-1.2-2.5-2.65-2.5H5.65z"/>
-        </svg>
-      </div>
+      <img src="assets/logo.png" alt="BiteMap" class="logo-img" />
       <span>Bite<strong>Map</strong></span>
     </a>
     
@@ -132,6 +128,18 @@
           </div>
         </div>
 
+        <!-- Average Rating Display -->
+        <div class="avg-rating-banner" id="avg-rating-banner">
+          <div class="avg-rating-big">
+            <span class="avg-rating-number" id="avg-rating-number">—</span>
+            <div class="avg-rating-details">
+              <div class="avg-stars" id="avg-stars">★★★★★</div>
+              <span class="avg-review-count" id="avg-review-count">0 reviews</span>
+            </div>
+          </div>
+          <p class="avg-rating-label">BiteMap Community Rating</p>
+        </div>
+
         <!-- User Ratings & Comments -->
         <div class="reviews-header-wrapper">
           <div class="section-header-block" style="margin: 0;">
@@ -142,46 +150,21 @@
             </span>
             <h3 class="section-title">User Ratings & Comments</h3>
           </div>
-          <a href="#" class="write-review-link" style="display: flex; align-items: center; gap: 4px;">
-            Write a review
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-          </a>
+          <div class="review-action-btns">
+            <button id="btn-quick-rate" class="btn-rate-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              Rate
+            </button>
+            <a href="#" id="btn-write-review" class="write-review-link" style="display: flex; align-items: center; gap: 4px;">
+              Write a review
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            </a>
+          </div>
         </div>
 
-        <div class="reviews-section">
-          <!-- Review 1 (Mock) -->
-          <div class="review-item">
-            <div class="review-user-row">
-              <div class="review-user-info">
-                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="review-avatar" alt="Elena Rodriguez" />
-                <div>
-                  <h4 class="review-name">Elena Rodriguez</h4>
-                  <p class="review-time">2 days ago</p>
-                </div>
-              </div>
-              <div class="review-stars">★★★★★</div>
-            </div>
-            <p class="review-text">The Truffle Risotto was absolutely divine! The ambiance is perfect for a date night. Highly recommend the chef's tasting menu.</p>
-            <div class="review-photos">
-              <img src="https://images.unsplash.com/photo-1626844131082-256783844137?auto=format&fit=crop&w=200&q=80" class="review-photo" alt="Risotto" />
-              <img src="https://images.unsplash.com/photo-1546241072-48010adcbfa3?auto=format&fit=crop&w=200&q=80" class="review-photo" alt="Dessert" />
-            </div>
-          </div>
-
-          <!-- Review 2 (Mock) -->
-          <div class="review-item">
-            <div class="review-user-row">
-              <div class="review-user-info">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="review-avatar" alt="Marcus Chen" />
-                <div>
-                  <h4 class="review-name">Marcus Chen</h4>
-                  <p class="review-time">1 week ago</p>
-                </div>
-              </div>
-              <div class="review-stars">★★★★★</div>
-            </div>
-            <p class="review-text">Great service and wine selection. The pasta was al dente just how I like it. A bit noisy on a Friday night but worth it for the food.</p>
-          </div>
+        <!-- Dynamic Reviews List -->
+        <div class="reviews-section" id="reviews-list">
+          <p style="color: #999; text-align: center; padding: 2rem;">Loading reviews...</p>
         </div>
 
       </div>
@@ -241,9 +224,54 @@
     </div>
   </main>
 
+  <!-- REVIEW MODAL -->
+  <div class="modal-overlay" id="review-modal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Write a Review</h3>
+        <button class="modal-close" id="review-modal-close">&times;</button>
+      </div>
+      <form id="review-form">
+        <label>Your Rating</label>
+        <div class="star-picker" id="review-star-picker">
+          <span class="pick-star" data-value="1">★</span>
+          <span class="pick-star" data-value="2">★</span>
+          <span class="pick-star" data-value="3">★</span>
+          <span class="pick-star" data-value="4">★</span>
+          <span class="pick-star" data-value="5">★</span>
+        </div>
+        <label>Your Review</label>
+        <textarea id="review-comment" rows="4" placeholder="Share your experience..."></textarea>
+        <button type="submit" class="btn-submit-review">Submit Review</button>
+        <p id="review-form-msg" style="text-align:center; margin-top: 8px; font-size: 0.85rem;"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- QUICK RATE MODAL -->
+  <div class="modal-overlay" id="rate-modal" style="display: none;">
+    <div class="modal-card modal-card-small">
+      <div class="modal-header">
+        <h3>Quick Rate</h3>
+        <button class="modal-close" id="rate-modal-close">&times;</button>
+      </div>
+      <p style="text-align:center; color: #666; margin-bottom: 16px;">Tap a star to rate this restaurant</p>
+      <div class="star-picker star-picker-large" id="rate-star-picker">
+        <span class="pick-star" data-value="1">★</span>
+        <span class="pick-star" data-value="2">★</span>
+        <span class="pick-star" data-value="3">★</span>
+        <span class="pick-star" data-value="4">★</span>
+        <span class="pick-star" data-value="5">★</span>
+      </div>
+      <button id="btn-submit-rate" class="btn-submit-review" style="margin-top: 16px;">Submit Rating</button>
+      <p id="rate-form-msg" style="text-align:center; margin-top: 8px; font-size: 0.85rem;"></p>
+    </div>
+  </div>
+
 
 
   <script type="module" src="js/supabase.js"></script>
+  <script type="module" src="js/auth.js"></script>
   <script type="module" src="js/restaurant.js"></script>
 </body>
 </html>

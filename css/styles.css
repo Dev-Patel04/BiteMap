@@ -106,14 +106,10 @@ ul { list-style: none; }
   font-weight: 800;
   letter-spacing: -0.5px;
 }
-.nav-logo .logo-icon {
+.nav-logo .logo-img {
   width: 34px; height: 34px;
-  background: var(--accent);
   border-radius: var(--radius-sm);
-  display: grid;
-  place-items: center;
-  font-size: 1.1rem;
-  box-shadow: 0 0 18px var(--accent-glow);
+  object-fit: contain;
 }
 .nav-logo span { color: var(--text-primary); }
 .nav-logo strong { color: var(--accent); }

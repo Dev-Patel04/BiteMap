@@ -48,15 +48,11 @@ body.profile-page {
   text-decoration: none;
 }
 
-.brand-icon {
+.logo-img {
   width: 36px; height: 36px;
-  background: var(--c-orange);
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: contain;
 }
-.brand-icon svg { width: 22px; fill: white; }
 
 .brand-name {
   font-family: var(--font-heading);
