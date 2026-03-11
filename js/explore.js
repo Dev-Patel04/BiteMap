@@ -291,15 +291,15 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           
           <div class="card-footer">
-            <a href="#" class="visit-link">Visit website ↗</a>
-            <button class="view-menu-btn">View Menu</button>
+            <button class="view-menu-btn">View Details</button>
           </div>
         </div>
       `;
 
-      // Track click for recent views
+      // Track click for recent views and navigate
       card.addEventListener('click', () => {
         addToRecentViews(restaurant);
+        window.location.href = `restaurant.html?id=${restaurant.id}`;
       });
 
       restaurantList.appendChild(card);
