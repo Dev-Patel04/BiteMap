@@ -34,8 +34,8 @@
 
       <!-- Desktop CTA -->
       <div class="nav-cta">
-        <a href="#" class="btn btn-ghost" id="nav-login">Log In</a>
-        <a href="#" class="btn btn-primary" id="nav-signup">Sign Up Free</a>
+        <a href="#" onclick="openAuthModal('login')" class="btn btn-ghost" id="nav-login">Log In</a>
+        <a href="#" onclick="openAuthModal('signup')" class="btn btn-primary" id="nav-signup">Sign Up Free</a>
       </div>
 
       <!-- Hamburger (mobile) -->
@@ -58,8 +58,8 @@
     <a href="#features">Features</a>
     <a href="#how-it-works">How It Works</a>
     <a href="#discover">Discover</a>
-    <a href="#" class="btn btn-ghost">Log In</a>
-    <a href="#" class="btn btn-primary">Sign Up Free</a>
+    <a href="#" onclick="openAuthModal('login')" class="btn btn-ghost">Log In</a>
+    <a href="#" onclick="openAuthModal('signup')" class="btn btn-primary">Sign Up Free</a>
   </div>
 
 
@@ -99,7 +99,7 @@
             <a href="#discover" class="btn btn-primary btn-large" id="hero-explore-btn">
               🔍 Start Exploring
             </a>
-            <a href="#" class="btn-outline-large" id="hero-signup-btn">
+            <a href="#" onclick="openAuthModal('signup')" class="btn-outline-large" id="hero-signup-btn">
               Create Free Account
             </a>
           </div>
@@ -321,7 +321,7 @@
           Join BiteMap today and start discovering restaurants that actually match your taste — for free.
         </p>
         <div class="cta-actions">
-          <a href="#" class="btn btn-primary btn-large" id="cta-signup-btn">
+          <a href="#" onclick="openAuthModal('signup')" class="btn btn-primary btn-large" id="cta-signup-btn">
             🚀 Get Started Free
           </a>
           <a href="#features" class="btn-outline-large" id="cta-learn-btn">
@@ -358,8 +358,48 @@
   </footer>
 
 
+  <!-- ═══════════════════════════════════════
+       AUTH MODAL
+  ═══════════════════════════════════════ -->
+  <div class="modal-overlay" id="auth-modal-overlay">
+    <div class="modal-content" id="auth-modal">
+      <button class="modal-close" onclick="closeAuthModal()" aria-label="Close modal">×</button>
+      
+      <div class="modal-header">
+        <h3 class="modal-title" id="auth-modal-title">Welcome to BiteMap</h3>
+        <p class="modal-subtitle" id="auth-modal-subtitle">Log in to track your favorite spots.</p>
+      </div>
+
+      <form class="auth-form" id="auth-form">
+        <div class="form-group">
+          <label for="auth-email">Email Address</label>
+          <input type="email" id="auth-email" required placeholder="you@example.com" />
+        </div>
+        <div class="form-group">
+          <label for="auth-password">Password</label>
+          <input type="password" id="auth-password" required placeholder="••••••••" />
+        </div>
+        
+        <div class="form-error" id="auth-error"></div>
+
+        <button type="submit" class="btn btn-primary btn-full" id="auth-submit-btn">
+          Log In
+        </button>
+      </form>
+
+      <div class="modal-footer">
+        <p id="auth-toggle-text">
+          Don't have an account? 
+          <button type="button" class="btn-text" onclick="toggleAuthMode()">Sign up</button>
+        </p>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
-  <script src="js/main.js"></script>
+  <script type="module" src="js/supabase.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/main.js"></script> <!-- Changed to module -->
   <script>
     // Dynamic year in footer
     document.getElementById('footer-year').textContent = new Date().getFullYear();
