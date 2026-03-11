@@ -45,15 +45,11 @@ body {
   margin-bottom: 5px;
 }
 
-.brand-icon {
-  background: var(--accent-color);
+.logo-img {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+  object-fit: contain;
 }
 
 .tagline {

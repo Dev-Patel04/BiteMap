@@ -85,16 +85,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin-bottom: 40px;
   padding-left: 12px;
 }
-.brand-icon {
+.logo-img {
   width: 32px; height: 32px;
-  background: var(--c-orange);
   border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(234, 122, 43, 0.3);
+  object-fit: contain;
 }
-.brand-icon svg { width: 18px; fill: white; }
 .brand-name {
   font-family: var(--font-heading);
   font-size: 1.25rem;
