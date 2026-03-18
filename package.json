@@ -1,0 +1,20 @@
+{
+  "name": "bitemap",
+  "version": "1.0.0",
+  "description": "Team Members: Dev Patel, Mahdi Ali, Muhammad Mir\r **BiteMap** is a social restaurant discovery platform that lets users search for restaurants, track dining experiences, connect with friends, and earn achievements — all in one place.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dev-Patel04/BiteMap.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dev-Patel04/BiteMap/issues"
+  },
+  "homepage": "https://github.com/Dev-Patel04/BiteMap#readme"
+}
