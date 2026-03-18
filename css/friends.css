@@ -1,0 +1,387 @@
+/* ===================================================
+   BiteMap — Friends Page Styles
+   Inherits variables from dashboard.css
+   =================================================== */
+
+/* ─── PAGE HEADER ─── */
+.friends-header {
+  padding: 40px 40px 0;
+}
+
+.friends-title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--c-text-main);
+  margin-bottom: 28px;
+}
+
+/* ─── SEARCH BAR ─── */
+.friends-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-dark);
+  border-radius: var(--radius-pill);
+  padding: 6px 6px 6px 20px;
+  box-shadow: var(--shadow-sm);
+  max-width: 740px;
+  margin-bottom: 40px;
+}
+
+.friends-search-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--c-text-muted);
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+#friends-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--c-text-main);
+  background: transparent;
+}
+
+#friends-search-input::placeholder {
+  color: var(--c-text-muted);
+}
+
+.friends-search-btn {
+  background: var(--c-orange);
+  color: white;
+  border: none;
+  padding: 12px 26px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+
+.friends-search-btn:hover {
+  background: var(--c-orange-hover);
+  transform: translateY(-1px);
+}
+
+/* ─── SECTION HEADINGS ─── */
+.friends-section {
+  padding: 0 40px;
+  margin-bottom: 40px;
+}
+
+.friends-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.friends-section-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--c-text-main);
+}
+
+.friends-view-all {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--c-orange);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.friends-view-all:hover {
+  text-decoration: underline;
+}
+
+/* ─── SUGGESTED FRIENDS GRID ─── */
+.suggested-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.suggested-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-dark);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.suggested-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.suggested-card-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.suggested-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.suggested-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.suggested-name {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.suggested-handle {
+  font-size: 0.82rem;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+
+/* ─── FOOD TAG CHIPS ─── */
+.food-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.food-tag {
+  background: var(--c-orange-light);
+  color: var(--c-orange-tag-text);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+}
+
+/* ─── FOLLOW BUTTON ─── */
+.follow-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+}
+
+.follow-btn.not-following {
+  background: var(--c-orange);
+  color: white;
+  box-shadow: 0 4px 12px rgba(234, 122, 43, 0.25);
+}
+
+.follow-btn.not-following:hover {
+  background: var(--c-orange-hover);
+  transform: translateY(-1px);
+}
+
+.follow-btn.following {
+  background: transparent;
+  border: 1.5px solid var(--c-border-dark);
+  color: var(--c-text-sub);
+}
+
+.follow-btn.following:hover {
+  border-color: #d1d5db;
+  background: var(--c-input-bg);
+}
+
+/* ─── NEARBY FOODIES LIST ─── */
+.nearby-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nearby-row {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-dark);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: box-shadow 0.2s;
+}
+
+.nearby-row:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.nearby-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.nearby-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.nearby-name {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-text-main);
+}
+
+.nearby-tags {
+  font-size: 0.82rem;
+  color: var(--c-text-sub);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nearby-follow-btn {
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  border: none;
+}
+
+.nearby-follow-btn.not-following {
+  background: var(--c-input-bg);
+  color: var(--c-text-main);
+  border: 1.5px solid var(--c-border-dark);
+}
+
+.nearby-follow-btn.not-following:hover {
+  background: var(--c-border-dark);
+}
+
+.nearby-follow-btn.following {
+  background: var(--c-orange-light);
+  color: var(--c-orange);
+  border: 1.5px solid var(--c-orange-light);
+}
+
+/* ─── EMPTY / LOADING STATES ─── */
+.friends-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--c-text-muted);
+  font-size: 0.95rem;
+}
+
+.friends-loading {
+  text-align: center;
+  padding: 30px;
+  color: var(--c-text-muted);
+  font-size: 0.9rem;
+  grid-column: 1 / -1;
+}
+
+/* ─── FOOTER ─── */
+.friends-footer {
+  border-top: 1px solid var(--c-border);
+  padding: 28px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.friends-footer-copy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+}
+
+.footer-logo-icon {
+  width: 18px;
+  height: 18px;
+  background: var(--c-orange);
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-logo-icon svg {
+  width: 10px;
+  fill: white;
+}
+
+.friends-footer-links {
+  display: flex;
+  gap: 24px;
+}
+
+.friends-footer-links a {
+  font-size: 0.85rem;
+  color: var(--c-text-sub);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.friends-footer-links a:hover {
+  color: var(--c-text-main);
+}
+
+/* ─── SEARCH RESULTS STATE ─── */
+.search-results-label {
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+  margin-bottom: 14px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .suggested-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .suggested-grid {
+    grid-template-columns: 1fr;
+  }
+  .friends-header,
+  .friends-section {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
