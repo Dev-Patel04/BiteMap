@@ -1,7 +1,7 @@
 # 🍽️ BiteMap
 
 
-Team Members: Dev Patel, Mahdi Ali, Muhammad Mir
+Team Members: Dev Patel, Mahdi Ali, Muhammad Mir, Rishi Jain, Devansh Shah
 **BiteMap** is a social restaurant discovery platform that lets users search for restaurants, track dining experiences, connect with friends, and earn achievements — all in one place.
 
 ---
