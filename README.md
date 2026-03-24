@@ -98,13 +98,35 @@ feature/<story-number>-short-description
 
 ## 🚀 Getting Started
 
-> _(Setup and installation instructions will be added here as the project is configured.)_
+Since BiteMap is a primarily front-end project leveraging HTML, CSS, Vanilla JavaScript, and a Supabase backend, we use [Vite](https://vitejs.dev/) to instantly serve our web application during development and intelligently bundle it for production.
+
+### Prerequisites
+- **Node.js**: Required to install packages and run the application via `npm`.
+
+### 1. Installation
+
+Before running the project for the first time, you must install the requested Node dependencies:
+```bash
+npm install
+```
+
+### 2. Running the Project Locally (Testing & Development)
+
+If you are a new developer or just want to test/run the program locally:
+```bash
+npm run dev
+```
+Open your web browser and navigate to `http://localhost:5173`. Running this local web server ensures that ES modules and CORS requests (like those interacting with the Supabase API) function properly.
+
+### 3. Building the Project (Deployment)
+
+If you want to package all of the project's static assets for production deployment onto a web server:
+```bash
+npm run build
+```
+Vite will gather and copy all HTML files, CSS stylesheets, JavaScript files, and assets over to a clean `dist/` folder using its optimized build process. You can then take the contents of the `dist/` folder and host them on a service like GitHub Pages, Netlify, Vercel, or an Apache/Nginx web server.
 
 ---
-
-## 👥 Team
-
-> _(Team member names and assigned stories will be added here.)_
 
 ## Daily Workflow 
 
