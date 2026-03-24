@@ -93,6 +93,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 5. Wire up UI interactions
   wireEditProfile();
   wireStatCards();
+
+  // 6. Load tagged restaurants (My Dining Map)
+  loadTaggedRestaurants();
 });
 
 // ─── RENDER PROFILE ──────────────────────────────────────────────
@@ -359,36 +362,202 @@ function setSavingState(isSaving) {
   spinner.style.display = isSaving ? 'inline-block' : 'none';
 }
 
-// ─── RECENT PICKS ────────────────────────────────────────────────
-function loadRecentPicks() {
-  const stored = JSON.parse(localStorage.getItem('bitemap_recent_views') || '[]');
-  const grid = document.getElementById('recs-grid');
+// ─── TAGGED RESTAURANTS (My Dining Map) ──────────────────────────
+let allTaggedData = []; // cached for tab switching
 
-  if (stored.length === 0) return;
+async function loadTaggedRestaurants() {
+  const grid = document.getElementById('tagged-restaurants-grid');
+  const tabs = document.querySelectorAll('#tag-tabs .tag-tab');
+  if (!grid || !currentUser) return;
+
+  try {
+    // Fetch all tags for current user with restaurant details
+    const { data, error } = await supabase
+      .from('user_restaurant_tags')
+      .select('tag, created_at, restaurant_id, restaurants(id, name, cuisine_tag, city, price_tag)')
+      .eq('user_id', currentUser.id)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    allTaggedData = data || [];
+
+    // Update tab counts
+    const counts = { 'Want to go': 0, 'Visited': 0, 'Would go again': 0 };
+    allTaggedData.forEach(item => {
+      if (counts[item.tag] !== undefined) counts[item.tag]++;
+    });
+    document.getElementById('count-want').textContent = counts['Want to go'];
+    document.getElementById('count-visited').textContent = counts['Visited'];
+    document.getElementById('count-again').textContent = counts['Would go again'];
+
+    // Render the active tab
+    const activeTab = document.querySelector('#tag-tabs .tag-tab.active');
+    const activeTag = activeTab ? activeTab.dataset.tag : 'Want to go';
+    renderTaggedCards(activeTag);
+
+    // Wire tab switching
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderTaggedCards(tab.dataset.tag);
+      });
+    });
+  } catch (err) {
+    console.error('Error loading tagged restaurants:', err);
+    grid.innerHTML = '<p class="tagged-empty-state">Failed to load tagged restaurants.</p>';
+  }
+}
+
+function renderTaggedCards(filterTag) {
+  const grid = document.getElementById('tagged-restaurants-grid');
+  const filtered = allTaggedData.filter(item => item.tag === filterTag);
+
+  if (filtered.length === 0) {
+    const messages = {
+      'Want to go': 'No restaurants on your wishlist yet. Explore and tag places you want to try!',
+      'Visited': 'You haven\'t marked any restaurants as visited yet.',
+      'Would go again': 'Tag your favourite restaurants to remember them here!'
+    };
+    grid.innerHTML = `<p class="tagged-empty-state">${messages[filterTag] || 'No tagged restaurants.'}</p>`;
+    return;
+  }
 
   grid.innerHTML = '';
+  filtered.forEach(item => {
+    const r = item.restaurants;
+    if (!r) return;
 
-  stored.slice(0, 4).forEach(r => {
-    const card = document.createElement('article');
-    card.className = 'rec-card';
+    const cuisine = r.cuisine_tag || 'Restaurant';
+    const emojiMap = {
+      'Pub/Bar Food': '🍔', 'Fine Dining': '🍷', 'Cafe/Bakery': '☕',
+      'Canadian': '🍁', 'Italian': '🍕', 'Seafood': '🦞',
+      'Asian': '🍜', 'BBQ/Smokehouse': '🔥', 'Steakhouse': '🥩'
+    };
+    const emoji = emojiMap[cuisine] || '🍽️';
+
+    const badgeClass = item.tag === 'Want to go' ? 'badge-want'
+      : item.tag === 'Visited' ? 'badge-visited' : 'badge-again';
+
+    const taggedDate = new Date(item.created_at).toLocaleDateString('en-CA', {
+      year: 'numeric', month: 'short', day: 'numeric'
+    });
+
+    const card = document.createElement('div');
+    card.className = 'tagged-card';
     card.innerHTML = `
-      <div class="rec-image-wrapper">
-        <div class="rec-image-placeholder">
-          <span>📍</span>
-          <p>${r.cuisine_tag || 'Restaurant'}</p>
-        </div>
+      <div class="tagged-card-image">
+        <span>${emoji}</span>
+        <span class="tagged-card-badge ${badgeClass}">${item.tag}</span>
       </div>
-      <div class="rec-content">
-        <div class="rec-top-row">
-          <h3 class="rec-title">${r.name}</h3>
-        </div>
-        <p class="rec-meta">${r.cuisine_tag || ''} • ${r.city || 'Ontario'}</p>
-        <div class="rec-footer">
-          <span class="rec-date">Recently viewed</span>
-          <a href="explore.html" class="rec-details">Explore →</a>
+      <div class="tagged-card-body">
+        <h3 class="tagged-card-name">${r.name}</h3>
+        <p class="tagged-card-meta">${cuisine} • ${r.city || 'Ontario'}${r.price_tag ? ' • ' + r.price_tag : ''}</p>
+        <div class="tagged-card-footer">
+          <span class="tagged-card-date">Tagged ${taggedDate}</span>
+          <button class="tagged-card-remove" data-id="${r.id}" title="Remove tag">Remove</button>
         </div>
       </div>
     `;
+
+    // Click card to navigate to restaurant
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.tagged-card-remove')) return;
+      window.location.href = `restaurant.html?id=${r.id}`;
+    });
+
+    // Remove button
+    const removeBtn = card.querySelector('.tagged-card-remove');
+    removeBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (!confirm('Remove this tag?')) return;
+
+      try {
+        const { error } = await supabase
+          .from('user_restaurant_tags')
+          .delete()
+          .eq('user_id', currentUser.id)
+          .eq('restaurant_id', r.id);
+
+        if (error) throw error;
+
+        // Re-load to refresh counts and grid
+        await loadTaggedRestaurants();
+      } catch (err) {
+        console.error('Error removing tag:', err);
+        alert('Failed to remove tag.');
+      }
+    });
+
     grid.appendChild(card);
   });
+}
+
+// ─── TOP PICKS (Would go again) ──────────────────────────────────
+async function loadRecentPicks() {
+  const grid = document.getElementById('recs-grid');
+  if (!grid || !currentUser) return;
+
+  try {
+    const { data, error } = await supabase
+      .from('user_restaurant_tags')
+      .select('created_at, restaurants(id, name, cuisine_tag, city, price_tag)')
+      .eq('user_id', currentUser.id)
+      .eq('tag', 'Would go again')
+      .order('created_at', { ascending: false })
+      .limit(4);
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      grid.innerHTML = `
+        <p style="color: #999; grid-column: 1 / -1; text-align: center; padding: 40px;">
+          Tag restaurants as "Would go again" to see your top picks here!
+        </p>`;
+      return;
+    }
+
+    grid.innerHTML = '';
+    data.forEach(item => {
+      const r = item.restaurants;
+      if (!r) return;
+
+      const cuisine = r.cuisine_tag || 'Restaurant';
+      const emojiMap = {
+        'Pub/Bar Food': '🍔', 'Fine Dining': '🍷', 'Cafe/Bakery': '☕',
+        'Canadian': '🍁', 'Italian': '🍕', 'Seafood': '🦞',
+        'Asian': '🍜', 'BBQ/Smokehouse': '🔥', 'Steakhouse': '🥩'
+      };
+      const emoji = emojiMap[cuisine] || '🍽️';
+
+      const card = document.createElement('article');
+      card.className = 'rec-card';
+      card.style.cursor = 'pointer';
+      card.innerHTML = `
+        <div class="rec-image-wrapper">
+          <div class="rec-image-placeholder">
+            <span>${emoji}</span>
+            <p>${cuisine}</p>
+          </div>
+        </div>
+        <div class="rec-content">
+          <div class="rec-top-row">
+            <h3 class="rec-title">${r.name}</h3>
+          </div>
+          <p class="rec-meta">${cuisine} • ${r.city || 'Ontario'}${r.price_tag ? ' • ' + r.price_tag : ''}</p>
+          <div class="rec-footer">
+            <span class="rec-date">Would go again ❤️</span>
+            <a href="restaurant.html?id=${r.id}" class="rec-details">View →</a>
+          </div>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        window.location.href = `restaurant.html?id=${r.id}`;
+      });
+      grid.appendChild(card);
+    });
+  } catch (err) {
+    console.error('Error loading top picks:', err);
+  }
 }

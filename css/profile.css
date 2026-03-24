@@ -98,6 +98,48 @@ body.profile-page {
   padding: 10px 24px;
 }
 
+/* ─── TOPBAR NAV LINKS ─── */
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-right: 16px;
+}
+
+.topbar-nav-link {
+  text-decoration: none;
+  color: var(--c-text-sub);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.18s;
+}
+
+.topbar-nav-link:hover {
+  color: var(--c-orange);
+}
+
+/* ─── BACK BAR ─── */
+.profile-back-bar {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px 20px 0;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--c-text-sub);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.18s;
+}
+
+.back-link:hover {
+  color: var(--c-orange);
+}
+
 /* ─── MAIN CONTAINER ─── */
 .profile-container {
   max-width: 1000px;
@@ -786,4 +828,210 @@ body.profile-page {
 .review-date {
   font-size: 0.78rem;
   color: var(--c-text-muted);
+}
+
+/* ─── MY DINING MAP SECTION ─── */
+.dining-map-section {
+  margin-top: 24px;
+}
+
+.tag-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tag-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 99px;
+  border: 1.5px solid var(--c-border-dark);
+  background: white;
+  color: var(--c-text-sub);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.tag-tab:hover {
+  background: var(--c-orange-light);
+  border-color: var(--c-orange);
+  color: var(--c-orange);
+}
+
+.tag-tab.active {
+  background: linear-gradient(135deg, #f28b24 0%, #ff9800 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(242, 139, 36, 0.3);
+}
+
+.tag-tab.active svg {
+  stroke: white;
+}
+
+.tag-tab-count {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
+}
+
+.tag-tab:not(.active) .tag-tab-count {
+  background: #f3f4f6;
+  color: var(--c-text-muted);
+}
+
+.tagged-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.tagged-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+
+.tagged-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(242, 139, 36, 0.12);
+}
+
+.tagged-card-image {
+  height: 140px;
+  width: 100%;
+  background: linear-gradient(135deg, #fff2ed 0%, #ffe8d6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  position: relative;
+}
+
+.tagged-card-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.tagged-card-badge.badge-want {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.tagged-card-badge.badge-visited {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.tagged-card-badge.badge-again {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.tagged-card-body {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tagged-card-name {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-text-main);
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tagged-card-meta {
+  color: var(--c-text-muted);
+  font-size: 0.82rem;
+  margin: 0 0 10px;
+}
+
+.tagged-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--c-border);
+}
+
+.tagged-card-date {
+  font-size: 0.75rem;
+  color: var(--c-text-muted);
+}
+
+.tagged-card-remove {
+  background: none;
+  border: none;
+  color: var(--c-text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+.tagged-card-remove:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.tagged-empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--c-text-muted);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .tagged-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .tag-tabs {
+    gap: 8px;
+  }
+  .tag-tab {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tagged-grid {
+    grid-template-columns: 1fr;
+  }
 }
