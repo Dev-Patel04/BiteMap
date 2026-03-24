@@ -59,11 +59,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       .join(', ');
     document.getElementById('rest-address').textContent = addressStr || 'Address not listed';
 
-    // Set images — random photo from the cuisine's image pool
+    // Set images — random photos from the cuisine's image pool
     const img1 = document.getElementById('hero-img-1');
     const img2 = document.getElementById('hero-img-2');
+    const img3 = document.getElementById('hero-img-3');
     img1.src = getRandomImage(cuisine);
     img2.src = getRandomImage(cuisine);
+    img3.src = getRandomImage(cuisine);
 
     // Hide loader, show content
     loadingState.style.display = 'none';
