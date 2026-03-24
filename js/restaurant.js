@@ -1,5 +1,6 @@
 import { supabase } from './supabase.js';
 import { checkSession } from './auth.js';
+import { getRandomImage } from './images.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // 1. Get restaurant ID from query params
@@ -58,12 +59,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       .join(', ');
     document.getElementById('rest-address').textContent = addressStr || 'Address not listed';
 
-    // Set images
+    // Set images — random photo from the cuisine's image pool
     const img1 = document.getElementById('hero-img-1');
     const img2 = document.getElementById('hero-img-2');
-    const foodKeywords = ['restaurant', 'dining', 'food', cuisine.split('/')[0].toLowerCase() || 'meal'];
-    img1.src = `https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80`;
-    img2.src = `https://source.unsplash.com/600x600/?${foodKeywords.join(',')}`;
+    img1.src = getRandomImage(cuisine);
+    img2.src = getRandomImage(cuisine);
 
     // Hide loader, show content
     loadingState.style.display = 'none';

@@ -12,6 +12,12 @@
   
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/dashboard.css" />
+  <style>
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+  </style>
 </head>
 <body>
 
@@ -94,63 +100,12 @@
         <section class="section">
           <div class="section-header">
             <h2 class="section-title">Recommended for You</h2>
-            <a href="#" class="see-all">See all matches</a>
+            <a href="explore.html" class="see-all" id="recommended-see-all">See all matches</a>
           </div>
 
-          <div class="cards-grid">
-            <!-- Card 1 -->
-            <div class="restaurant-card">
-              <div class="card-image-wrapper">
-                <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=600&q=80" alt="Sushi Bar" class="card-image">
-                <div class="rating-badge">
-                  <span class="star-icon">★</span> 4.9
-                </div>
-              </div>
-              <div class="card-content">
-                <h3 class="card-title">Omonoia Sushi Bar</h3>
-                <p class="card-subtitle">Japanese • $$$ • 1.2 miles</p>
-                <div class="card-tags">
-                  <span class="tag tag-grey">TOP RATED</span>
-                  <span class="tag tag-orange">FRESH FISH</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="restaurant-card">
-              <div class="card-image-wrapper">
-                <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=600&q=80" alt="Sushi Rolls" class="card-image">
-                <div class="rating-badge">
-                  <span class="star-icon">★</span> 4.7
-                </div>
-              </div>
-              <div class="card-content">
-                <h3 class="card-title">Tokyo Night</h3>
-                <p class="card-subtitle">Japanese Fusion • $$ • 0.8 miles</p>
-                <div class="card-tags">
-                  <span class="tag tag-grey">GREAT VALUE</span>
-                  <span class="tag tag-orange">BEST SAKE</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="restaurant-card">
-              <div class="card-image-wrapper">
-                <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=600&q=80" alt="Ramen" class="card-image">
-                <div class="rating-badge">
-                  <span class="star-icon">★</span> 4.8
-                </div>
-              </div>
-              <div class="card-content">
-                <h3 class="card-title">Hidden Dragon</h3>
-                <p class="card-subtitle">Traditional • $$$ • 2.5 miles</p>
-                <div class="card-tags">
-                  <span class="tag tag-grey">MICHELIN TIP</span>
-                  <span class="tag tag-orange">AUTHENTIC</span>
-                </div>
-              </div>
-            </div>
+          <!-- Dynamically populated by dashboard.js -->
+          <div class="cards-grid" id="recommended-grid">
+            <!-- skeleton inserted by JS -->
           </div>
         </section>
 
@@ -161,43 +116,9 @@
             <button class="more-opts-btn">•••</button>
           </div>
 
-          <div class="activity-feed">
-            <!-- Activity Item 1 -->
-            <div class="activity-item">
-              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Jenkins" class="activity-avatar" />
-              <div class="activity-content">
-                <div class="activity-meta">
-                  <span class="activity-user">Sarah Jenkins</span> reviewed <span class="activity-restaurant">Kaze Sushi Lounge</span>
-                </div>
-                <div class="activity-time">2 hours ago</div>
-                <div class="activity-stars">★★★★★</div>
-                <p class="activity-review">"The omakase experience here is absolutely unrivaled. Make sure to try the torched fatty tuna—it literally melts in your mouth!"</p>
-                <div class="activity-actions">
-                  <button class="action-btn">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                    24
-                  </button>
-                  <button class="action-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                    5
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Activity Item 2 -->
-            <div class="activity-item">
-              <img src="https://randomuser.me/api/portraits/men/46.jpg" alt="Mike Chen" class="activity-avatar" />
-              <div class="activity-content">
-                <div class="activity-meta">
-                  <span class="activity-user">Mike Chen</span> checked in at <span class="activity-restaurant">Ramen-Ya</span>
-                </div>
-                <div class="activity-time">5 hours ago</div>
-                <div class="activity-photo-wrapper">
-                  <img src="https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=800&q=80" alt="Ramen-Ya photo" class="activity-photo">
-                </div>
-              </div>
-            </div>
+          <!-- Dynamically populated by dashboard.js -->
+          <div class="activity-feed" id="activity-feed">
+            <!-- skeleton inserted by JS -->
           </div>
         </section>
 

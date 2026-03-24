@@ -1,4 +1,5 @@
 import { supabase } from './supabase.js';
+import { getRandomImage } from './images.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('search-input');
@@ -260,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const priceTag = restaurant.price_tag || 'Standard';
       const cuisineTag = restaurant.cuisine_tag || 'Food';
       // Placeholder image requested by user
-      const imageSrc = 'https://dummyimage.com/400x200/cccccc/000000&text=Image+to+be+added';
+      const imageSrc = getRandomImage(cuisineTag);
       
       // Give a random rating between 4.0 and 5.0 for UI purposes since we don't have real ratings yet
       const randomRating = (Math.random() * 1 + 4).toFixed(1);
