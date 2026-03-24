@@ -107,12 +107,13 @@
 .hero-image-small-container {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
 
 .hero-image-small {
   border-radius: 20px;
   overflow: hidden;
-  height: 200px; /* Mockup shows a shorter image aligned to top */
+  flex: 1; /* each small image takes half the hero height */
 }
 
 .hero-image-small img {
