@@ -24,10 +24,23 @@
       </a>
 
       <div class="topbar-right">
+        <nav class="topbar-nav">
+          <a href="dashboard.html" class="topbar-nav-link">Dashboard</a>
+          <a href="explore.html" class="topbar-nav-link">Explore</a>
+          <a href="friends.html" class="topbar-nav-link">Friends</a>
+        </nav>
         <button class="btn btn-primary">Post Review</button>
       </div>
     </div>
   </header>
+
+  <!-- Back Navigation -->
+  <div class="profile-back-bar">
+    <a href="dashboard.html" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      Back to Dashboard
+    </a>
+  </div>
 
   <!-- MAIN CONTENT CONTAINER -->
   <main class="profile-container">
@@ -109,6 +122,39 @@
         <p style="color: #999; grid-column: 1 / -1; text-align: center; padding: 40px;">
           Start exploring and reviewing restaurants to see your top picks here!
         </p>
+      </div>
+    </section>
+
+    <!-- My Dining Map (Tagged Restaurants) Section -->
+    <section class="dining-map-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="orange-icon">📍</span> <span>My Dining Map</span>
+        </h2>
+      </div>
+
+      <!-- Tag Filter Tabs -->
+      <div class="tag-tabs" id="tag-tabs">
+        <button class="tag-tab active" data-tag="Want to go">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+          Want to go
+          <span class="tag-tab-count" id="count-want">0</span>
+        </button>
+        <button class="tag-tab" data-tag="Visited">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          Visited
+          <span class="tag-tab-count" id="count-visited">0</span>
+        </button>
+        <button class="tag-tab" data-tag="Would go again">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          Would go again
+          <span class="tag-tab-count" id="count-again">0</span>
+        </button>
+      </div>
+
+      <!-- Tagged Restaurants Grid -->
+      <div id="tagged-restaurants-grid" class="tagged-grid">
+        <p class="tagged-empty-state">Loading your tagged restaurants...</p>
       </div>
     </section>
 

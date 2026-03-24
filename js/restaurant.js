@@ -76,6 +76,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupReviewModal(restaurantId, currentUser);
     setupRateModal(restaurantId, currentUser);
 
+    // 6. Wire up tag buttons
+    setupTagButtons(restaurantId, currentUser);
+
   } catch (err) {
     console.error('Error fetching restaurant detail:', err);
     loadingState.style.display = 'none';
@@ -339,3 +342,94 @@ function setupRateModal(restaurantId, currentUser) {
     }
   });
 }
+
+// ─── TAG BUTTONS (Want to go / Visited / Would go again) ───
+async function setupTagButtons(restaurantId, currentUser) {
+  const pillGroup = document.getElementById('tag-pill-group');
+  if (!pillGroup) return;
+
+  const tagButtons = pillGroup.querySelectorAll('.btn-group-pill[data-tag]');
+
+  // 1. Load existing tag for this user + restaurant
+  if (currentUser) {
+    try {
+      const { data, error } = await supabase
+        .from('user_restaurant_tags')
+        .select('tag')
+        .eq('user_id', currentUser.id)
+        .eq('restaurant_id', restaurantId)
+        .maybeSingle();
+
+      if (!error && data) {
+        // Highlight the matching button
+        tagButtons.forEach(btn => {
+          if (btn.dataset.tag === data.tag) {
+            btn.classList.add('active');
+          }
+        });
+      }
+    } catch (err) {
+      console.error('Error loading tag:', err);
+    }
+  }
+
+  // 2. Handle click events on each tag button
+  tagButtons.forEach(btn => {
+    btn.addEventListener('click', async () => {
+      if (!currentUser) {
+        alert('Please log in to tag restaurants.');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      const clickedTag = btn.dataset.tag;
+      const isAlreadyActive = btn.classList.contains('active');
+
+      // Disable buttons during request
+      tagButtons.forEach(b => (b.disabled = true));
+
+      try {
+        if (isAlreadyActive) {
+          // Remove the tag (un-toggle)
+          const { error } = await supabase
+            .from('user_restaurant_tags')
+            .delete()
+            .eq('user_id', currentUser.id)
+            .eq('restaurant_id', restaurantId);
+
+          if (error) throw error;
+
+          btn.classList.remove('active');
+        } else {
+          // Upsert (insert or update) the tag
+          const { error } = await supabase
+            .from('user_restaurant_tags')
+            .upsert(
+              {
+                user_id: currentUser.id,
+                restaurant_id: restaurantId,
+                tag: clickedTag,
+              },
+              { onConflict: 'user_id,restaurant_id' }
+            );
+
+          if (error) throw error;
+
+          // Remove active from all, then mark clicked one
+          tagButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          // Pulse animation
+          btn.classList.add('just-activated');
+          setTimeout(() => btn.classList.remove('just-activated'), 300);
+        }
+      } catch (err) {
+        console.error('Error saving tag:', err);
+        alert('Failed to save tag. Please try again.');
+      } finally {
+        tagButtons.forEach(b => (b.disabled = false));
+      }
+    });
+  });
+}
+
