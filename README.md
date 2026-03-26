@@ -102,15 +102,41 @@ Since BiteMap is a primarily front-end project leveraging HTML, CSS, Vanilla Jav
 
 ### Prerequisites
 - **Node.js**: Required to install packages and run the application via `npm`.
+- **Python 3**: Required to use the automated quick-start script.
 
-### 1. Installation
+### Quick Start (Automated)
+
+The easiest way to get up and running is with the included **`run.sh`** script, which calls **`run_project.py`** to handle everything for you:
+
+| Command | Description |
+|---|---|
+| `./run.sh` | Install dependencies **and** start the dev server (default) |
+| `./run.sh dev` | Start the Vite dev server only |
+| `./run.sh build` | Create a production build in `dist/` |
+| `./run.sh install` | Install npm dependencies only |
+| `./run.sh preview` | Preview the production build |
+
+> **Windows (without Git Bash/WSL):** You can run the Python script directly:
+> ```bash
+> python run_project.py        # install + dev (default)
+> python run_project.py dev    # dev server only
+> python run_project.py build  # production build
+> ```
+
+---
+
+### Manual Setup
+
+If you prefer to run the npm commands yourself:
+
+#### 1. Installation
 
 Before running the project for the first time, you must install the requested Node dependencies:
 ```bash
 npm install
 ```
 
-### 2. Running the Project Locally (Testing & Development)
+#### 2. Running the Project Locally (Testing & Development)
 
 If you are a new developer or just want to test/run the program locally:
 ```bash
@@ -118,7 +144,7 @@ npm run dev
 ```
 Open your web browser and navigate to `http://localhost:5173`. Running this local web server ensures that ES modules and CORS requests (like those interacting with the Supabase API) function properly.
 
-### 3. Building the Project (Deployment)
+#### 3. Building the Project (Deployment)
 
 If you want to package all of the project's static assets for production deployment onto a web server:
 ```bash
