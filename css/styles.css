@@ -1007,3 +1007,96 @@ h1.hero-title {
   .level-showcase { padding: 32px 24px; }
   .level-showcase-inner { flex-direction: column; text-align: center; }
 }
+
+/* ─── BADGES LANDING SECTION ─── */
+.badges-landing-section {
+  padding: 100px 0;
+  background: var(--c-bg, #0d0d0d);
+  position: relative;
+}
+
+.landing-badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.landing-badge-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px 16px 20px;
+  text-align: center;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease;
+}
+
+.landing-badge-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(234,122,43,0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.landing-badge-card:hover {
+  border-color: rgba(234, 122, 43, 0.45);
+  transform: translateY(-5px);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(234,122,43,0.12);
+}
+
+.landing-badge-card:hover::before { opacity: 1; }
+
+.lbc-icon {
+  font-size: 2.4rem;
+  display: block;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+.landing-badge-card:hover .lbc-icon { transform: scale(1.18); }
+
+.lbc-name {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #f0f0f0;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.lbc-desc {
+  font-size: 0.74rem;
+  color: #666;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.lbc-lock {
+  font-size: 0.68rem;
+  color: #555;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 768px) {
+  .badges-landing-section { padding: 70px 0; }
+  .landing-badge-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-badge-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+

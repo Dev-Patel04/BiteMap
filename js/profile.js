@@ -1,5 +1,6 @@
 import { supabase } from './supabase.js';
 import { checkSession } from './auth.js';
+import { BADGES, checkAndAwardBadges } from './gamification.js';
 
 // ─── Cached state ───────────────────────────────────────────────
 let currentUser = null;       // The logged-in user
@@ -105,6 +106,9 @@ async function enterOwnProfileMode() {
   currentProfile = profile;
   renderProfile(profile);
 
+  // Catch-up badge check (awards badges from historical actions)
+  checkAndAwardBadges(currentUser.id);
+
   await fetchAndRenderStats(currentUser.id);
 
   document.getElementById('recs-title').textContent =
@@ -207,6 +211,10 @@ function renderProfile(profile, readOnly = false) {
   document.getElementById('stat-level').textContent = level;
   document.getElementById('stat-xp').textContent = `${xp} XP`;
   document.getElementById('level-progress-fill').style.width = `${progress}%`;
+
+  // Render earned badges
+  renderInlineBadges(profile.badges || []);
+  renderAchievements(profile.badges || []);
 }
 
 // ─── FETCH & RENDER STATS ────────────────────────────────────────
@@ -713,4 +721,47 @@ async function loadRecentPicks(userId) {
   } catch (err) {
     console.error('Error loading top picks:', err);
   }
+}
+
+// ─── RENDER INLINE BADGES (near profile name) ─────────────────────
+function renderInlineBadges(earnedBadgeIds = []) {
+  const row = document.getElementById('profile-badges-row');
+  if (!row) return;
+
+  const earned = BADGES.filter(b => earnedBadgeIds.includes(b.id));
+
+  if (earned.length === 0) {
+    row.innerHTML = '<span class="badge-chip badge-chip-empty">No badges yet — start exploring to earn some!</span>';
+    return;
+  }
+
+  row.innerHTML = earned
+    .map(b => `<span class="badge-chip" title="${b.description}">${b.icon} ${b.name}</span>`)
+    .join('');
+}
+
+// ─── RENDER ACHIEVEMENTS GRID (all 13 badges, earned / locked) ────
+function renderAchievements(earnedBadgeIds = []) {
+  const grid = document.getElementById('badges-grid');
+  if (!grid) return;
+
+  const earnedSet = new Set(earnedBadgeIds);
+  grid.innerHTML = '';
+
+  BADGES.forEach(badge => {
+    const isEarned = earnedSet.has(badge.id);
+    const card = document.createElement('div');
+    card.className = `badge-card ${isEarned ? 'earned' : 'locked'}`;
+    card.title = badge.description;
+    card.innerHTML = `
+      <span class="badge-card-icon">${badge.icon}</span>
+      <div class="badge-card-name">${badge.name}</div>
+      <div class="badge-card-desc">${badge.description}</div>
+      ${ isEarned
+        ? '<div class="badge-card-status earned-label">✓ Earned</div>'
+        : '<div class="badge-card-status lock-label">🔒 Locked</div>'
+      }
+    `;
+    grid.appendChild(card);
+  });
 }
