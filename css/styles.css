@@ -831,3 +831,179 @@ h1.hero-title {
   .hero-stats { flex-wrap: wrap; gap: 20px; }
   .stat-divider { display: none; }
 }
+
+
+/* ─── GAMIFICATION SECTION ─── */
+.gamification-section {
+  padding: 120px 0;
+  background: var(--bg-primary);
+}
+
+/* XP reward cards row */
+.xp-cards-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 56px;
+}
+
+.xp-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition);
+}
+.xp-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.xp-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255,107,43,0.25);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.45), 0 0 28px rgba(255,107,43,0.1);
+}
+.xp-card:hover::before { opacity: 1; }
+
+/* Middle card (most popular) gets extra prominence */
+.xp-card-mid {
+  border-color: rgba(251,191,36,0.2);
+  background: rgba(28,22,6,0.8);
+  transform: translateY(-8px);
+}
+.xp-card-mid::before {
+  background: linear-gradient(90deg, #fbbf24, transparent);
+  opacity: 1;
+}
+.xp-card-mid:hover { transform: translateY(-14px); }
+
+.xp-card-icon {
+  font-size: 2.4rem;
+  margin-bottom: 14px;
+}
+.xp-amount {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.xp-card-mid .xp-amount {
+  background: linear-gradient(135deg, #fbbf24, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.xp-action {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+.xp-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Level progress showcase */
+.level-showcase {
+  background: linear-gradient(135deg, rgba(255,107,43,0.07) 0%, rgba(251,191,36,0.05) 100%);
+  border: 1px solid rgba(255,107,43,0.15);
+  border-radius: var(--radius-lg);
+  padding: 40px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.level-showcase::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 80% at 0% 50%, rgba(255,107,43,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 100% 50%, rgba(251,191,36,0.07) 0%, transparent 60%);
+  pointer-events: none;
+}
+.level-showcase-inner {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.level-badge-demo {
+  flex-shrink: 0;
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b2b, #e63900);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 36px rgba(255,107,43,0.45);
+}
+.level-num-demo {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+.level-lbl-demo {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.75);
+}
+.level-progress-demo { flex: 1; }
+.level-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.level-bar-demo {
+  height: 10px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.07);
+  overflow: hidden;
+}
+.level-bar-fill-demo {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #ff6b2b, #fbbf24);
+  box-shadow: 0 0 12px rgba(255,107,43,0.5);
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.level-unlock-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 12px;
+}
+.level-unlock-hint strong { color: #fbbf24; }
+
+/* Responsive: gamification section */
+@media (max-width: 900px) {
+  .xp-cards-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .xp-card-mid { transform: none; }
+  .xp-card-mid:hover { transform: translateY(-6px); }
+  .level-showcase { padding: 32px 24px; }
+  .level-showcase-inner { flex-direction: column; text-align: center; }
+}

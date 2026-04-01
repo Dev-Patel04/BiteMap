@@ -1,6 +1,7 @@
 import { supabase } from './supabase.js';
 import { checkSession } from './auth.js';
 import { getRandomImage } from './images.js';
+import { addXP, XP_REWARDS } from './gamification.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // 1. Get restaurant ID from query params
@@ -265,6 +266,9 @@ function setupReviewModal(restaurantId, currentUser) {
 
       if (error) throw error;
 
+      // 🎮 Award XP for writing a review
+      await addXP(currentUser.id, XP_REWARDS.review, 'Review Written');
+
       msgEl.textContent = 'Review submitted!';
       msgEl.style.color = '#059669';
 
@@ -327,6 +331,9 @@ function setupRateModal(restaurantId, currentUser) {
       });
 
       if (error) throw error;
+
+      // 🎮 Award XP for a quick rating
+      await addXP(currentUser.id, XP_REWARDS.rate, 'Restaurant Rated');
 
       msgEl.textContent = 'Rating submitted!';
       msgEl.style.color = '#059669';
@@ -416,6 +423,12 @@ async function setupTagButtons(restaurantId, currentUser) {
             );
 
           if (error) throw error;
+
+          // 🎮 Award XP for tagging a restaurant
+          const tagLabel = clickedTag === 'Want to go'     ? 'Added to Wishlist'
+                         : clickedTag === 'Visited'         ? 'Marked as Visited'
+                         : 'Marked as Would Go Again';
+          addXP(currentUser.id, XP_REWARDS.tag, tagLabel);
 
           // Remove active from all, then mark clicked one
           tagButtons.forEach(b => b.classList.remove('active'));
