@@ -38,22 +38,50 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const user = session.user;
 
-  // 2. Populate sidebar username
+  // 2. Populate sidebar with live profile data
   const { data: profile } = await supabase
     .from('profiles')
-    .select('username, avatar_url')
+    .select('username, avatar_url, level, xp')
     .eq('id', user.id)
     .single();
 
   const displayName = profile?.username || user.email.split('@')[0];
-  const userNameEl = document.querySelector('.user-name');
+  const level = profile?.level || 1;
+  const xp = profile?.xp || 0;
+  const maxXP = level * 100;
+  const pct = Math.min(Math.floor((xp / maxXP) * 100), 100);
+  const xpLeft = maxXP - xp;
+
+  // Name
+  const userNameEl = document.getElementById('sidebar-name') || document.querySelector('.user-name');
   if (userNameEl) userNameEl.textContent = displayName;
 
-  const userAvatar = document.querySelector('.user-avatar');
+  // Avatar
+  const userAvatar = document.getElementById('sidebar-avatar') || document.querySelector('.user-avatar');
   if (userAvatar) {
     userAvatar.src = profile?.avatar_url
       || `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=ea7a2b&color=fff&size=96&bold=true`;
+    userAvatar.alt = displayName;
   }
+
+  // Title (flavour name based on level)
+  const titleEl = document.getElementById('sidebar-title');
+  if (titleEl) titleEl.textContent = getLevelTitle(level);
+
+  // Level label & percent
+  const levelLabel = document.getElementById('sidebar-level-label');
+  if (levelLabel) levelLabel.textContent = `LEVEL ${level}`;
+
+  const levelPct = document.getElementById('sidebar-level-pct');
+  if (levelPct) levelPct.textContent = `${pct}% TO LEVEL ${level + 1}`;
+
+  // Progress bar
+  const progressFill = document.getElementById('sidebar-progress-fill');
+  if (progressFill) progressFill.style.width = `${pct}%`;
+
+  // XP text
+  const xpText = document.getElementById('sidebar-xp-text');
+  if (xpText) xpText.textContent = `${xpLeft} XP to next rank`;
 
   // 3. Logout button
   const logoutBtn = document.querySelector('.btn-logout');
@@ -269,9 +297,9 @@ async function loadFriendActivity(userId) {
           <div class="activity-time">${timeAgo}</div>
           <div class="activity-stars" style="color:#F59E0B;font-size:1rem;margin:4px 0">${stars}</div>
           ${review.comment
-            ? `<p class="activity-review">"${escapeHtml(review.comment)}"</p>`
-            : `<p class="activity-review" style="color:#bbb;font-style:italic">Rating only — no written review.</p>`
-          }
+          ? `<p class="activity-review">"${escapeHtml(review.comment)}"</p>`
+          : `<p class="activity-review" style="color:#bbb;font-style:italic">Rating only — no written review.</p>`
+        }
         </div>
       `;
 
@@ -325,4 +353,16 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+// ─── LEVEL TITLE ─────────────────────────────────────────────────────────────
+function getLevelTitle(level) {
+  if (level <= 2) return 'Curious Nibbler';
+  if (level <= 4) return 'Casual Diner';
+  if (level <= 6) return 'Food Explorer';
+  if (level <= 9) return 'Foodie';
+  if (level <= 12) return 'Flavour Hunter';
+  if (level <= 16) return 'Gourmet Seeker';
+  if (level <= 20) return 'Culinary Connoisseur';
+  return 'Legendary Eater';
 }

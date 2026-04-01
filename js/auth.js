@@ -5,6 +5,21 @@ export async function handleSignUp(email, password) {
     email: email,
     password: password,
   });
+
+  // Initialise profile row with level 1 and 0 XP for every new user
+  if (!error && data?.user) {
+    const username = email.split('@')[0];
+    await supabase.from('profiles').upsert(
+      {
+        id:       data.user.id,
+        username: username,
+        level:    1,
+        xp:       0,
+      },
+      { onConflict: 'id', ignoreDuplicates: true }
+    );
+  }
+
   return { data, error };
 }
 
