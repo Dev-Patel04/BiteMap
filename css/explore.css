@@ -30,7 +30,7 @@ body {
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 24px 16px;
   overflow-y: auto;
 }
 
@@ -149,14 +149,14 @@ body {
   flex-direction: column;
   overflow-y: auto;
   background: #fafafa;
-  padding: 0 40px;
+  padding: 0 32px;
 }
 
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: var(--header-height);
+  height: 72px;
   flex-shrink: 0;
 }
 
@@ -221,9 +221,9 @@ body {
 .filters-container {
   display: flex;
   gap: 10px;
-  padding-bottom: 20px;
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--border-color);
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .filter-pill {
@@ -423,15 +423,23 @@ body {
 /* Right Sidebar */
 .right-sidebar {
   width: var(--right-sidebar-width);
-  background: #fafafa;
-  padding: 30px;
+  background: #ffffff;
+  padding: 28px 24px;
   border-left: 1px solid var(--border-color);
   overflow-y: auto;
 }
 
+.right-section {
+  margin-bottom: 32px;
+}
+
 .right-section h3 {
-  font-size: 1.1rem;
-  margin: 0 0 20px 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+  margin: 0 0 16px 0;
 }
 
 .trending-list, .recent-list {
@@ -465,10 +473,18 @@ body {
 }
 
 .recent-card {
-  background: white;
-  border: 1px solid var(--border-color);
+  background: #fafafa;
+  border: 1px solid #f3f4f6;
   border-radius: 12px;
-  padding: 16px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.recent-card:hover {
+  background: #fff7ed;
+  border-color: #fcd9b4;
+  transform: translateX(2px);
 }
 
 .recent-category {

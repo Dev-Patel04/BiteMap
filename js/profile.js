@@ -1,6 +1,7 @@
 import { supabase } from './supabase.js';
 import { checkSession } from './auth.js';
 import { BADGES, checkAndAwardBadges } from './gamification.js';
+import { getRandomImage } from './images.js';
 
 // ─── Cached state ───────────────────────────────────────────────
 let currentUser = null;       // The logged-in user
@@ -184,6 +185,9 @@ async function enterFriendViewMode(friendId) {
 
   // Load their dining map (read-only, no remove buttons)
   loadTaggedRestaurants(friendId, true);
+
+  // Load their favourite restaurants
+  loadFriendFavorites(friendId, profile.username);
 }
 
 // ─── RENDER PROFILE ──────────────────────────────────────────────
@@ -590,12 +594,6 @@ function renderTaggedCards(filterTag, readOnly, userId) {
     if (!r) return;
 
     const cuisine = r.cuisine_tag || 'Restaurant';
-    const emojiMap = {
-      'Pub/Bar Food': '🍔', 'Fine Dining': '🍷', 'Cafe/Bakery': '☕',
-      'Canadian': '🍁', 'Italian': '🍕', 'Seafood': '🦞',
-      'Asian': '🍜', 'BBQ/Smokehouse': '🔥', 'Steakhouse': '🥩'
-    };
-    const emoji = emojiMap[cuisine] || '🍽️';
 
     const badgeClass = item.tag === 'Want to go' ? 'badge-want'
       : item.tag === 'Visited' ? 'badge-visited' : 'badge-again';
@@ -607,8 +605,8 @@ function renderTaggedCards(filterTag, readOnly, userId) {
     const card = document.createElement('div');
     card.className = 'tagged-card';
     card.innerHTML = `
-      <div class="tagged-card-image">
-        <span>${emoji}</span>
+      <div class="tagged-card-image" style="display: block;">
+        <img src="${getRandomImage(cuisine)}" alt="${cuisine}" style="width: 100%; height: 100%; object-fit: cover;" />
         <span class="tagged-card-badge ${badgeClass}">${item.tag}</span>
       </div>
       <div class="tagged-card-body">
@@ -685,22 +683,13 @@ async function loadRecentPicks(userId) {
       if (!r) return;
 
       const cuisine = r.cuisine_tag || 'Restaurant';
-      const emojiMap = {
-        'Pub/Bar Food': '🍔', 'Fine Dining': '🍷', 'Cafe/Bakery': '☕',
-        'Canadian': '🍁', 'Italian': '🍕', 'Seafood': '🦞',
-        'Asian': '🍜', 'BBQ/Smokehouse': '🔥', 'Steakhouse': '🥩'
-      };
-      const emoji = emojiMap[cuisine] || '🍽️';
 
       const card = document.createElement('article');
       card.className = 'rec-card';
       card.style.cursor = 'pointer';
       card.innerHTML = `
         <div class="rec-image-wrapper">
-          <div class="rec-image-placeholder">
-            <span>${emoji}</span>
-            <p>${cuisine}</p>
-          </div>
+          <img src="${getRandomImage(cuisine)}" alt="${cuisine}" class="rec-image" />
         </div>
         <div class="rec-content">
           <div class="rec-top-row">
@@ -764,4 +753,89 @@ function renderAchievements(earnedBadgeIds = []) {
     `;
     grid.appendChild(card);
   });
+}
+
+// ─── FRIEND FAVOURITES ────────────────────────────────────────────
+async function loadFriendFavorites(friendId, friendName) {
+  const section = document.getElementById('friend-favorites-section');
+  const grid = document.getElementById('friend-favorites-grid');
+  const titleEl = document.getElementById('friend-favorites-title');
+  if (!section || !grid) return;
+
+  // Update title
+  if (titleEl) titleEl.textContent = `${friendName || 'Their'}'s Favourite Restaurants`;
+
+  // Show the section
+  section.style.display = 'block';
+  grid.innerHTML = '<p class="tagged-empty-state">Loading favourites...</p>';
+
+  try {
+    // Fetch their favorited restaurant IDs from user_restaurant_tags
+    const { data: tagData, error: tagError } = await supabase
+      .from('user_restaurant_tags')
+      .select('restaurant_id, created_at')
+      .eq('user_id', friendId)
+      .eq('tag', 'Favorite')
+      .order('created_at', { ascending: false });
+
+    if (tagError) throw tagError;
+
+    if (!tagData || tagData.length === 0) {
+      grid.innerHTML = `<p class="tagged-empty-state">${
+        friendName || 'This user'
+      } hasn't favourited any restaurants yet.</p>`;
+      return;
+    }
+
+    const restaurantIds = tagData.map(t => t.restaurant_id);
+
+    // Fetch full restaurant data
+    const { data: restaurants, error: restError } = await supabase
+      .from('restaurants')
+      .select('id, name, cuisine_tag, city, price_tag, address')
+      .in('id', restaurantIds);
+
+    if (restError) throw restError;
+
+    if (!restaurants || restaurants.length === 0) {
+      grid.innerHTML = '<p class="tagged-empty-state">No favourites found.</p>';
+      return;
+    }
+
+    // Preserve the recency order
+    const ordered = restaurantIds
+      .map(id => restaurants.find(r => r.id === id))
+      .filter(Boolean);
+
+    grid.innerHTML = '';
+    ordered.forEach(rest => {
+      const imgSrc = getRandomImage(rest.cuisine_tag || 'Food');
+      const card = document.createElement('article');
+      card.className = 'rec-card';
+      card.style.cursor = 'pointer';
+      card.innerHTML = `
+        <div class="rec-image-wrapper">
+          <img src="${imgSrc}" alt="${rest.name}" class="rec-image" />
+        </div>
+        <div class="rec-content">
+          <div class="rec-top-row">
+            <h3 class="rec-title">${rest.name}</h3>
+          </div>
+          <p class="rec-meta">${rest.cuisine_tag || 'Restaurant'} • ${rest.city || 'Ontario'}${rest.price_tag ? ' • ' + rest.price_tag : ''}</p>
+          <div class="rec-footer">
+            <span class="rec-date">❤️ Favourited</span>
+            <a href="restaurant.html?id=${rest.id}" class="rec-details">View →</a>
+          </div>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        window.location.href = `restaurant.html?id=${rest.id}`;
+      });
+      grid.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error('Error loading friend favourites:', err);
+    grid.innerHTML = '<p class="tagged-empty-state">Failed to load favourites.</p>';
+  }
 }
