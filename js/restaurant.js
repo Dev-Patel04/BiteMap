@@ -22,6 +22,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   const { data: { session } } = await checkSession();
   const currentUser = session?.user || null;
 
+  // Populate navbar profile avatar with real user data
+  if (currentUser) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('username, avatar_url')
+      .eq('id', currentUser.id)
+      .single();
+
+    if (profile) {
+      const navAvatar = document.getElementById('nav-profile-avatar');
+      if (navAvatar) {
+        const name = profile.username || currentUser.email?.split('@')[0] || 'User';
+        navAvatar.src = profile.avatar_url
+          || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=ea7a2b&color=fff&size=88&bold=true`;
+      }
+    }
+  }
+
   try {
     // 2. Fetch from Supabase
     const { data: restaurant, error } = await supabase
@@ -74,6 +92,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 4. Load reviews & average rating
     await loadReviews(restaurantId);
+    
+    // 4b. Load friends who visited
+    loadFriendsWhoVisited(restaurantId, currentUser);
 
     // 5. Wire up modals
     setupReviewModal(restaurantId, currentUser);
@@ -446,5 +467,143 @@ async function setupTagButtons(restaurantId, currentUser) {
       }
     });
   });
+}
+
+// ─── FRIENDS WHO VISITED ───
+async function loadFriendsWhoVisited(restaurantId, currentUser) {
+  const container = document.getElementById('friends-visited-list');
+  const seeAllBtn = document.getElementById('btn-see-all-friends');
+  
+  if (!container) return;
+  
+  if (!currentUser) {
+    container.innerHTML = '<p style="color: #999; font-size: 0.9rem; margin-top: 10px;">Log in to see which friends have visited.</p>';
+    return;
+  }
+
+  try {
+    // 1. Get friend IDs (following_id)
+    const { data: friendsData, error: friendsError } = await supabase
+      .from('friendships')
+      .select('following_id')
+      .eq('follower_id', currentUser.id);
+
+    if (friendsError) throw friendsError;
+
+    if (!friendsData || friendsData.length === 0) {
+      container.innerHTML = '<p style="color: #999; font-size: 0.9rem; margin-top: 10px;">No friends found. Follow some people!</p>';
+      return;
+    }
+
+    const followingIds = friendsData.map(f => f.following_id);
+
+    // 2. Fetch reviews from friends
+    const { data: reviewsData } = await supabase
+      .from('reviews')
+      .select('user_id, created_at, profiles(username, avatar_url)')
+      .eq('restaurant_id', restaurantId)
+      .in('user_id', followingIds);
+
+    // 3. Fetch tags from friends ('Visited' or 'Would go again')
+    const { data: tagsData } = await supabase
+      .from('user_restaurant_tags')
+      .select('user_id, created_at, tag, profiles(username, avatar_url)')
+      .eq('restaurant_id', restaurantId)
+      .in('tag', ['Visited', 'Would go again'])
+      .in('user_id', followingIds);
+
+    const visitedMap = new Map(); // user_id -> info
+
+    const processRecord = (record) => {
+      const uid = record.user_id;
+      const date = new Date(record.created_at);
+      const profileInfo = record.profiles || {};
+      
+      if (!visitedMap.has(uid)) {
+        visitedMap.set(uid, {
+          user_id: uid,
+          username: profileInfo.username || 'Friend',
+          avatar_url: profileInfo.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(profileInfo.username || 'User')}&background=ea7a2b&color=fff&size=88&bold=true`,
+          latest_date: date,
+          count: 1
+        });
+      } else {
+        const existing = visitedMap.get(uid);
+        existing.count++;
+        if (date > existing.latest_date) {
+          existing.latest_date = date;
+        }
+      }
+    };
+
+    if (reviewsData) reviewsData.forEach(processRecord);
+    if (tagsData) tagsData.forEach(processRecord);
+
+    const visitedFriends = Array.from(visitedMap.values());
+    visitedFriends.sort((a, b) => b.latest_date - a.latest_date);
+
+    if (visitedFriends.length === 0) {
+      container.innerHTML = '<p style="color: #999; font-size: 0.9rem; margin-top: 10px;">None of your friends have visited this place yet.</p>';
+      return;
+    }
+
+    // Render
+    container.innerHTML = '';
+    const displayFriends = visitedFriends.slice(0, 3);
+    
+    displayFriends.forEach(friend => {
+      const timeStr = getTimeAgoFriendText(friend.latest_date);
+      let metaText = `VISITED ${timeStr.toUpperCase()}`;
+      if (friend.count > 1) {
+        metaText = `VISITED ${friend.count} TIMES`;
+      }
+
+      const item = document.createElement('div');
+      item.className = 'friend-item';
+      
+      const checkMarkHtml = `
+        <div class="friend-check" style="flex-shrink:0; display:flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; background:var(--c-orange-light); color:var(--c-orange-hover);">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        </div>
+      `;
+
+      item.innerHTML = `
+        <img src="${friend.avatar_url}" class="friend-avatar" alt="${friend.username}" />
+        <div class="friend-info">
+          <h4 class="friend-name">${friend.username}</h4>
+          <p class="friend-meta">${metaText}</p>
+        </div>
+        ${friend.count > 0 ? checkMarkHtml : ''}
+      `;
+      container.appendChild(item);
+    });
+
+    if (visitedFriends.length > 3) {
+      seeAllBtn.style.display = 'block';
+      seeAllBtn.textContent = `See all ${visitedFriends.length} friends`;
+    }
+
+  } catch (err) {
+    console.error('Error loading friends who visited:', err);
+    container.innerHTML = '<p style="color: #EF4444; font-size: 0.9rem; margin-top: 10px;">Failed to load friends.</p>';
+  }
+}
+
+function getTimeAgoFriendText(date) {
+  const seconds = Math.floor((new Date() - date) / 1000);
+  if (seconds < 86400) return 'today';
+  const days = Math.floor(seconds / 86400);
+  if (days < 7) {
+    if (days === 1) return 'yesterday';
+    return `${days} days ago`;
+  }
+  const weeks = Math.floor(days / 7);
+  if (weeks < 4) {
+    if (weeks === 1) return 'last week';
+    return `${weeks} weeks ago`;
+  }
+  const months = Math.floor(days / 30);
+  if (months === 1) return 'last month';
+  return `${months} months ago`;
 }
 

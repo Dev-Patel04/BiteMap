@@ -28,7 +28,7 @@
 
     <div class="nav-right">
       <a href="profile.html">
-        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile" class="profile-avatar" title="My Profile" />
+        <img id="nav-profile-avatar" src="https://ui-avatars.com/api/?name=User&background=ea7a2b&color=fff&size=88&bold=true" alt="Profile" class="profile-avatar" title="My Profile" />
       </a>
     </div>
   </nav>
@@ -190,42 +190,11 @@
             <h3 class="section-title">Friends who visited</h3>
           </div>
           
-          <div class="friend-list">
-            <div class="friend-item">
-              <img src="https://randomuser.me/api/portraits/women/68.jpg" class="friend-avatar" alt="Sarah" />
-              <div class="friend-info">
-                <h4 class="friend-name">Sarah Jenkins</h4>
-                <p class="friend-meta">VISITED 3 TIMES</p>
-              </div>
-              <div class="friend-check">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-              </div>
-            </div>
-            
-            <div class="friend-item">
-              <img src="https://randomuser.me/api/portraits/men/22.jpg" class="friend-avatar" alt="Tom" />
-              <div class="friend-info">
-                <h4 class="friend-name">Tom Holland</h4>
-                <p class="friend-meta">VISITED LAST WEEK</p>
-              </div>
-            </div>
-
-            <div class="friend-item">
-              <img src="https://randomuser.me/api/portraits/women/12.jpg" class="friend-avatar" alt="Priya" />
-              <div class="friend-info">
-                <h4 class="friend-name">Priya Sharma</h4>
-                <p class="friend-meta">VISITED 2 MONTHS AGO</p>
-              </div>
-            </div>
+          <div class="friend-list" id="friends-visited-list">
+            <p style="color: #999; font-size: 0.9rem; margin-top: 10px;">Loading friends...</p>
           </div>
           
-          <button class="btn-outline-full">See all 12 friends</button>
-        </div>
-
-        <!-- Insider Tip -->
-        <div class="insider-tip-card">
-          <h4 class="insider-title">BiteMap Insider Tip</h4>
-          <p class="insider-text">Members mention that the back patio is significantly quieter and offers a lovely view of the garden. Ask for a table there!</p>
+          <button class="btn-outline-full" id="btn-see-all-friends" style="display: none;">See all friends</button>
         </div>
 
       </aside>
