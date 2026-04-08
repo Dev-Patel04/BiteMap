@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BiteMap - My Profile</title>
+  <title>BiteMap - Profile</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -36,10 +36,16 @@
 
   <!-- Back Navigation -->
   <div class="profile-back-bar">
-    <a href="dashboard.html" class="back-link">
+    <a href="dashboard.html" class="back-link" id="back-link">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
       Back to Dashboard
     </a>
+  </div>
+
+  <!-- Friend View Banner (hidden by default) -->
+  <div id="friend-view-banner" class="friend-view-banner" style="display:none;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+    <span id="friend-banner-text">Viewing a friend's profile</span>
   </div>
 
   <!-- MAIN CONTENT CONTAINER -->
@@ -62,20 +68,22 @@
               <span id="profile-handle" class="profile-handle">@...</span>
             </div>
             <div class="profile-actions">
-              <!-- Edit Profile Button -->
+              <!-- Edit Profile Button (own profile only) -->
               <button id="btn-edit-profile" class="btn-edit-profile" title="Edit Profile">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                 Edit Profile
               </button>
 
+              <!-- Follow/Unfollow Button (friend view only, hidden initially) -->
+              <button id="btn-follow-profile" class="btn-follow-profile" style="display:none;" title="Follow/Unfollow">
+                <svg id="follow-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                <span id="follow-btn-text">Follow</span>
+              </button>
+
             </div>
           </div>
           <p id="profile-bio" class="profile-bio">Loading bio...</p>
-          <div class="profile-tags">
-            <span class="profile-tag gold-tag"><span class="tag-icon">🏆</span> SUPER EATER</span>
-            <span class="profile-tag grey-tag"><span class="tag-icon">🔥</span> ON FIRE</span>
-            <span class="profile-tag grey-tag"><span class="tag-icon">⚔️</span> REVIEWER ELITE</span>
-          </div>
+          <div id="profile-badges-row" class="profile-badges-row"></div>
         </div>
       </div>
     </section>
@@ -106,6 +114,18 @@
           </div>
           <span id="stat-xp" class="stat-subtext">0 XP</span>
         </div>
+      </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section class="achievements-section" id="achievements-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="orange-icon">🏅</span> <span>Achievements</span>
+        </h2>
+      </div>
+      <div id="badges-grid" class="badges-grid">
+        <p class="tagged-empty-state">Loading achievements...</p>
       </div>
     </section>
 
@@ -155,6 +175,18 @@
       <!-- Tagged Restaurants Grid -->
       <div id="tagged-restaurants-grid" class="tagged-grid">
         <p class="tagged-empty-state">Loading your tagged restaurants...</p>
+      </div>
+    </section>
+
+    <!-- Favourite Restaurants Section (friend-view only) -->
+    <section class="dining-map-section" id="friend-favorites-section" style="display:none;">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="orange-icon">❤️</span> <span id="friend-favorites-title">Favourite Restaurants</span>
+        </h2>
+      </div>
+      <div id="friend-favorites-grid" class="recs-grid">
+        <p class="tagged-empty-state">Loading favourites...</p>
       </div>
     </section>
 

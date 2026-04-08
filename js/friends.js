@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 3. Load lists
   await loadYourFriends();
   loadSuggestedFriends();
-  loadNearbyFoodies();
 
   // 4. Set up Search handler
   const searchInput = document.getElementById('friends-search-input');
@@ -198,46 +197,11 @@ async function loadSuggestedFriends() {
   }
 }
 
-async function loadNearbyFoodies() {
-  const list = document.getElementById('nearby-list');
-  list.innerHTML = '<div class="friends-loading">Loading foodies…</div>';
-
-  try {
-    // Fetch different profiles (offset by latest)
-    const { data: profiles, error } = await supabase
-      .from('profiles')
-      .select('id, username, bio, avatar_url')
-      .neq('id', currentUser.id)
-      .order('created_at', { ascending: false })
-      .limit(10);
-
-    if (error) throw error;
-
-    // Grab 3 users, ideally prioritizing ones we don't follow, but allowing any
-    const nearby = profiles.slice(3, 6); // Just grab a different slice for variety
-
-    if (!nearby || nearby.length === 0) {
-      list.innerHTML = '<div class="friends-empty">No nearby foodies found.</div>';
-      document.getElementById('nearby-section').style.display = 'none';
-      return;
-    }
-
-    list.innerHTML = '';
-    nearby.forEach(user => {
-      list.appendChild(createNearbyRow(user));
-    });
-
-  } catch (err) {
-    console.error('Error loading nearby:', err);
-    list.innerHTML = '<div class="friends-empty">Failed to load nearby foodies.</div>';
-  }
-}
 
 async function handleSearch(query) {
   const q = query.trim();
   const title = document.getElementById('suggested-title');
   const viewAllBtn = document.getElementById('view-all-btn');
-  const nearbySection = document.getElementById('nearby-section');
   const yourFriendsSection = document.getElementById('your-friends-section');
   const grid = document.getElementById('suggested-grid');
 
@@ -245,7 +209,6 @@ async function handleSearch(query) {
     // Revert to default view
     title.textContent = 'Suggested Friends';
     viewAllBtn.style.display = 'block';
-    nearbySection.style.display = 'block';
     loadYourFriends();
     loadSuggestedFriends();
     return;
@@ -254,7 +217,6 @@ async function handleSearch(query) {
   // Update UI for search state
   title.textContent = 'Search Results';
   viewAllBtn.style.display = 'none';
-  nearbySection.style.display = 'none'; 
   yourFriendsSection.style.display = 'none'; // hide friends section while searching
   grid.innerHTML = '<div class="friends-loading">Searching…</div>';
 
@@ -309,7 +271,8 @@ function createFriendCard(user, topRecommendationName) {
   const recText = topRecommendationName ? topRecommendationName : 'No recommendations yet';
 
   const card = document.createElement('div');
-  card.className = 'suggested-card'; // Reuse styled grid card
+  card.className = 'suggested-card friend-card-clickable'; // Reuse styled grid card
+  card.style.cursor = 'pointer';
   card.innerHTML = `
     <div class="suggested-card-top">
       <img src="${getAvatarUrl(user)}" alt="${name}" class="suggested-avatar" />
@@ -328,6 +291,13 @@ function createFriendCard(user, topRecommendationName) {
   `;
 
   attachFollowListener(card.querySelector('.follow-btn'), user.id);
+
+  // Navigate to friend's profile on card click (not follow button)
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('.follow-btn')) return;
+    window.location.href = `profile.html?id=${user.id}`;
+  });
+
   return card;
 }
 
@@ -343,7 +313,8 @@ function createSuggestedCard(user) {
   const tagHtml = tags.map(t => `<span class="food-tag">${t}</span>`).join('');
 
   const card = document.createElement('div');
-  card.className = 'suggested-card';
+  card.className = 'suggested-card friend-card-clickable';
+  card.style.cursor = 'pointer';
   card.innerHTML = `
     <div class="suggested-card-top">
       <img src="${getAvatarUrl(user)}" alt="${name}" class="suggested-avatar" />
@@ -361,6 +332,13 @@ function createSuggestedCard(user) {
   `;
 
   attachFollowListener(card.querySelector('.follow-btn'), user.id);
+
+  // Navigate to user's profile on card click (not follow button)
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('.follow-btn')) return;
+    window.location.href = `profile.html?id=${user.id}`;
+  });
+
   return card;
 }
 
@@ -373,6 +351,7 @@ function createNearbyRow(user) {
 
   const row = document.createElement('div');
   row.className = 'nearby-row';
+  row.style.cursor = 'pointer';
   row.innerHTML = `
     <img src="${getAvatarUrl(user)}" alt="${name}" class="nearby-avatar" />
     <div class="nearby-info">
@@ -385,6 +364,13 @@ function createNearbyRow(user) {
   `;
 
   attachFollowListener(row.querySelector('.nearby-follow-btn'), user.id);
+
+  // Navigate to user's profile on row click (not follow button)
+  row.addEventListener('click', (e) => {
+    if (e.target.closest('.nearby-follow-btn')) return;
+    window.location.href = `profile.html?id=${user.id}`;
+  });
+
   return row;
 }
 

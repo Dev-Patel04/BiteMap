@@ -44,17 +44,9 @@
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             Friends
           </a>
-          <a href="#" class="nav-item">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><line x1="12" y1="7" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-            My Reviews
-          </a>
           <a href="profile.html" class="nav-item">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             Profile
-          </a>
-          <a href="#" class="nav-item">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            Settings
           </a>
         </nav>
       </div>
@@ -62,20 +54,20 @@
       <div class="sidebar-bottom">
         <div class="user-card">
           <div class="user-card-header">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Avatar" class="user-avatar" />
+            <img id="sidebar-avatar" src="https://ui-avatars.com/api/?name=...&background=ea7a2b&color=fff&size=96&bold=true" alt="User Avatar" class="user-avatar" />
             <div class="user-info">
-              <div class="user-name">Alex Chen</div>
-              <div class="user-title">Sushi Scout</div>
+              <div class="user-name" id="sidebar-name">Loading...</div>
+              <div class="user-title" id="sidebar-title">Level 1</div>
             </div>
           </div>
-          <div class="level-info">
-            <span class="level-label">LEVEL 12</span>
-            <span class="level-percent">75% TO LEVEL 13</span>
+          <div class="level-info" id="sidebar-level-info">
+            <span class="level-label" id="sidebar-level-label">LEVEL 1</span>
+            <span class="level-percent" id="sidebar-level-pct">0% TO LEVEL 2</span>
           </div>
           <div class="progress-bar-container">
-            <div class="progress-bar-fill" style="width: 75%"></div>
+            <div class="progress-bar-fill" id="sidebar-progress-fill" style="width: 0%"></div>
           </div>
-          <div class="xp-text">250 XP to next rank</div>
+          <div class="xp-text" id="sidebar-xp-text">0 XP to next rank</div>
         </div>
 
         <a href="profile.html" class="btn btn-profile" style="text-decoration: none;">View Profile</a>
@@ -89,10 +81,6 @@
     <!-- MAIN CONTENT -->
     <main class="main-content">
       
-      <!-- Topbar -->
-      <header class="topbar">
-      </header>
-
       <!-- Dashboard Sections -->
       <div class="content-body">
         

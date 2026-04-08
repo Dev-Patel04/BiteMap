@@ -7,20 +7,22 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-main, #F7F7F7);
+  background-color: #fafafa;
   font-family: 'Inter', sans-serif;
 }
 
 /* Custom Navbar Overrides for this page to match mockup */
 .detail-navbar {
-  background: var(--bg-main, #F7F7F7);
-  padding: 1.5rem 2rem;
+  background: #ffffff;
+  padding: 1rem 2.5rem;
   display: flex;
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  max-width: 1200px;
-  margin: 0 auto;
+  border-bottom: 1px solid #f3f4f6;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .detail-navbar .nav-logo {
@@ -49,9 +51,13 @@
 
 .detail-navbar .nav-middle a {
   text-decoration: none;
-  color: #333;
+  color: #6b7280;
   font-weight: 500;
   font-size: 0.95rem;
+  transition: color 0.2s;
+}
+.detail-navbar .nav-middle a:hover {
+  color: #F57C00;
 }
 
 .detail-navbar .nav-right {
@@ -85,9 +91,9 @@
 .hero-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 1.5rem;
+  gap: 1.25rem;
   max-width: 1200px;
-  margin: 2rem auto 1rem;
+  margin: 1.5rem auto 1rem;
   padding: 0 2rem;
 }
 
@@ -277,7 +283,7 @@
   grid-template-columns: 2fr 1fr;
   gap: 2rem;
   max-width: 1200px;
-  margin: 0 auto 4rem;
+  margin: 0 auto 2.5rem;
   padding: 0 2rem;
 }
 

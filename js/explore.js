@@ -1,7 +1,8 @@
 import { supabase } from './supabase.js';
 import { getRandomImage } from './images.js';
+import { checkSession } from './auth.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const searchInput = document.getElementById('search-input');
   const searchClear = document.getElementById('search-clear');
   const searchDropdown = document.getElementById('search-dropdown');
@@ -167,7 +168,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // State tracking
   let currentCuisine = 'all';
+  let currentView = null; // 'favorites' | 'recent' | null
   let activeFilters = new Set(); // tracks active price filters like 'Cheap', 'Expensive'
+  let currentUser = null;
+  let favoriteIds = new Set(); // in-memory cache of favorited restaurant IDs
+
+  // Get session and load favorite IDs
+  const { data: { session } } = await checkSession().catch(() => ({ data: { session: null } }));
+  currentUser = session?.user || null;
+  await loadFavoriteIds();
+
+  async function loadFavoriteIds() {
+    favoriteIds = new Set();
+    if (!currentUser) return;
+    const { data } = await supabase
+      .from('user_restaurant_tags')
+      .select('restaurant_id')
+      .eq('user_id', currentUser.id)
+      .eq('tag', 'Favorite');
+    if (data) data.forEach(r => favoriteIds.add(r.restaurant_id));
+  }
 
   // Initialize with 'all'
   fetchAndRenderRestaurants();
@@ -245,7 +265,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function renderRestaurantCards(restaurants) {
+      const FAVORITES_KEY = 'bitemap_favorites'; // fallback for guests
+
+      function isFavorite(id) {
+        return favoriteIds.has(id);
+      }
+
+      async function toggleFavorite(restaurant) {
+        if (!currentUser) {
+          // Guest fallback: use localStorage
+          let stored = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
+          if (stored.some(r => r.id === restaurant.id)) {
+            stored = stored.filter(r => r.id !== restaurant.id);
+            favoriteIds.delete(restaurant.id);
+          } else {
+            stored.unshift({ id: restaurant.id, name: restaurant.name, city: restaurant.city, cuisine_tag: restaurant.cuisine_tag });
+            favoriteIds.add(restaurant.id);
+          }
+          localStorage.setItem(FAVORITES_KEY, JSON.stringify(stored));
+          return;
+        }
+
+        if (favoriteIds.has(restaurant.id)) {
+          // Remove favorite
+          await supabase
+            .from('user_restaurant_tags')
+            .delete()
+            .eq('user_id', currentUser.id)
+            .eq('restaurant_id', restaurant.id)
+            .eq('tag', 'Favorite');
+          favoriteIds.delete(restaurant.id);
+        } else {
+          // Add favorite
+          await supabase
+            .from('user_restaurant_tags')
+            .upsert(
+              { user_id: currentUser.id, restaurant_id: restaurant.id, tag: 'Favorite' },
+              { onConflict: 'user_id,restaurant_id' }
+            );
+          favoriteIds.add(restaurant.id);
+        }
+      }
+
+      function renderRestaurantCards(restaurants) {
     if (!restaurants || restaurants.length === 0) {
       restaurantList.innerHTML = '<p style="padding: 2rem; color: #666;">No restaurants found for this category.</p>';
       return;
@@ -260,8 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Fallback values
       const priceTag = restaurant.price_tag || 'Standard';
       const cuisineTag = restaurant.cuisine_tag || 'Food';
-      // Placeholder image requested by user
       const imageSrc = getRandomImage(cuisineTag);
+      const fav = isFavorite(restaurant.id);
       
       // Give a random rating between 4.0 and 5.0 for UI purposes since we don't have real ratings yet
       const randomRating = (Math.random() * 1 + 4).toFixed(1);
@@ -279,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="card-category">${cuisineTag}</span>
               <h2 class="card-title">${restaurant.name}</h2>
             </div>
-            <span class="bookmark-btn">🔖</span>
+            <span class="bookmark-btn" data-id="${restaurant.id}" title="${fav ? 'Remove from Favorites' : 'Add to Favorites'}" style="font-size:1.4rem; transition: transform 0.15s;">${fav ? '🔖' : '🔖'}</span>
           </div>
           
           <div class="card-location">
@@ -296,6 +358,22 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
       `;
+
+      // Bookmark toggle — stop propagation so card click doesn't fire
+      const bookmarkBtn = card.querySelector('.bookmark-btn');
+      bookmarkBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await toggleFavorite(restaurant);
+        const nowFav = isFavorite(restaurant.id);
+        bookmarkBtn.style.opacity = nowFav ? '1' : '0.4';
+        bookmarkBtn.style.transform = 'scale(1.3)';
+        setTimeout(() => bookmarkBtn.style.transform = 'scale(1)', 150);
+        bookmarkBtn.title = nowFav ? 'Remove from Favorites' : 'Add to Favorites';
+        // If currently viewing Favorites, refresh the list
+        if (currentView === 'favorites') showFavorites();
+      });
+      // Init opacity
+      bookmarkBtn.style.opacity = isFavorite(restaurant.id) ? '1' : '0.4';
 
       // Track click for recent views and navigate
       card.addEventListener('click', () => {
@@ -362,6 +440,60 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem(RECENT_VIEWS_KEY, JSON.stringify(stored));
     loadRecentViews();
   }
+
+  // --- Favorites helpers ---
+  async function showFavorites() {
+    currentView = 'favorites';
+    document.querySelectorAll('.left-sidebar .nav-item[data-cuisine]').forEach(l => l.classList.remove('active'));
+    pageTitle.textContent = '❤️ Favorites';
+
+    // Reload from Supabase in case it changed
+    await loadFavoriteIds();
+
+    if (favoriteIds.size === 0) {
+      pageSubtitle.textContent = 'No favorites saved yet.';
+      restaurantList.innerHTML = '<p style="padding: 2rem; color: #666;">Bookmark restaurants to save them here.</p>';
+      return;
+    }
+
+    const ids = Array.from(favoriteIds);
+    pageSubtitle.textContent = `${ids.length} saved restaurant${ids.length !== 1 ? 's' : ''}`;
+    supabase.from('restaurants').select('*').in('id', ids).then(({ data }) => {
+      if (data) renderRestaurantCards(data);
+    });
+  }
+
+  function showRecentlyViewed() {
+    const stored = JSON.parse(localStorage.getItem(RECENT_VIEWS_KEY) || '[]');
+    currentView = 'recent';
+    document.querySelectorAll('.left-sidebar .nav-item[data-cuisine]').forEach(l => l.classList.remove('active'));
+    pageTitle.textContent = '🕒 Recently Viewed';
+    if (stored.length === 0) {
+      pageSubtitle.textContent = 'No recent views yet.';
+      restaurantList.innerHTML = '<p style="padding: 2rem; color: #666;">Restaurants you view will appear here.</p>';
+      return;
+    }
+    pageSubtitle.textContent = `${stored.length} recently viewed`;
+    const ids = stored.map(r => r.id);
+    supabase.from('restaurants').select('*').in('id', ids).then(({ data }) => {
+      if (data) {
+        // Preserve recency order
+        const ordered = stored.map(r => data.find(d => d.id === r.id)).filter(Boolean);
+        renderRestaurantCards(ordered);
+      }
+    });
+  }
+
+  // Wire sidebar list links
+  const favLink = document.getElementById('sidebar-favorites-link');
+  const recentLink = document.getElementById('sidebar-recent-link');
+  if (favLink) favLink.addEventListener('click', (e) => { e.preventDefault(); showFavorites(); });
+  if (recentLink) recentLink.addEventListener('click', (e) => { e.preventDefault(); showRecentlyViewed(); });
+
+  // Reset currentView when a cuisine is clicked
+  cuisineLinks.forEach(link => {
+    link.addEventListener('click', () => { currentView = null; });
+  });
 
   // Load recent views on page init
   loadRecentViews();
