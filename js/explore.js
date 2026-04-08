@@ -172,11 +172,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   let activeFilters = new Set(); // tracks active price filters like 'Cheap', 'Expensive'
   let currentUser = null;
   let favoriteIds = new Set(); // in-memory cache of favorited restaurant IDs
+  let visitedIds = new Set();  // in-memory cache of visited restaurant IDs
 
-  // Get session and load favorite IDs
+  // Get session and load favorite + visited IDs
   const { data: { session } } = await checkSession().catch(() => ({ data: { session: null } }));
   currentUser = session?.user || null;
   await loadFavoriteIds();
+  await loadVisitedIds();
 
   async function loadFavoriteIds() {
     favoriteIds = new Set();
@@ -187,6 +189,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       .eq('user_id', currentUser.id)
       .eq('tag', 'Favorite');
     if (data) data.forEach(r => favoriteIds.add(r.restaurant_id));
+  }
+
+  async function loadVisitedIds() {
+    visitedIds = new Set();
+    if (!currentUser) return;
+    const { data } = await supabase
+      .from('user_restaurant_tags')
+      .select('restaurant_id')
+      .eq('user_id', currentUser.id)
+      .eq('tag', 'Visited');
+    if (data) data.forEach(r => visitedIds.add(r.restaurant_id));
   }
 
   // Initialize with 'all'
@@ -254,9 +267,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (error) throw error;
 
+      // Apply Visited filter client-side (needs user tag data)
+      let filtered = data;
+      if (activeFilters.has('Visited')) {
+        await loadVisitedIds();
+        filtered = data.filter(r => visitedIds.has(r.id));
+      }
+
       const filterLabel = activeFilters.size > 0 ? ` (${[...activeFilters].join(', ')})` : '';
-      pageSubtitle.textContent = `Found ${data.length} restaurants${filterLabel}`;
-      renderRestaurantCards(data);
+      pageSubtitle.textContent = `Found ${filtered.length} restaurant${filtered.length !== 1 ? 's' : ''}${filterLabel}`;
+      renderRestaurantCards(filtered);
       
     } catch (err) {
       console.error('Error fetching restaurants:', err);
@@ -485,9 +505,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Wire sidebar list links
-  const favLink = document.getElementById('sidebar-favorites-link');
   const recentLink = document.getElementById('sidebar-recent-link');
-  if (favLink) favLink.addEventListener('click', (e) => { e.preventDefault(); showFavorites(); });
   if (recentLink) recentLink.addEventListener('click', (e) => { e.preventDefault(); showRecentlyViewed(); });
 
   // Reset currentView when a cuisine is clicked
