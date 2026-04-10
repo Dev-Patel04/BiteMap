@@ -11,23 +11,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/profile.css" />
+  <link rel="stylesheet" href="/src/css/profile.css" />
 </head>
 <body class="profile-page">
 
   <!-- TOP NAV BAR -->
   <header class="profile-topbar">
     <div class="topbar-content">
-      <a href="dashboard.html" class="profile-brand">
-        <img src="assets/logo.png" alt="BiteMap" class="logo-img" />
+      <a href="/pages/dashboard.html" class="profile-brand">
+        <img src="/assets/logo.png" alt="BiteMap" class="logo-img" />
         <span class="brand-name">Bite<strong>Map</strong></span>
       </a>
 
       <div class="topbar-right">
         <nav class="topbar-nav">
-          <a href="dashboard.html" class="topbar-nav-link">Dashboard</a>
-          <a href="explore.html" class="topbar-nav-link">Explore</a>
-          <a href="friends.html" class="topbar-nav-link">Friends</a>
+          <a href="/pages/dashboard.html" class="topbar-nav-link">Dashboard</a>
+          <a href="/pages/explore.html" class="topbar-nav-link">Explore</a>
+          <a href="/pages/friends.html" class="topbar-nav-link">Friends</a>
         </nav>
         <button class="btn btn-primary">Post Review</button>
       </div>
@@ -36,7 +36,7 @@
 
   <!-- Back Navigation -->
   <div class="profile-back-bar">
-    <a href="dashboard.html" class="back-link" id="back-link">
+    <a href="/pages/dashboard.html" class="back-link" id="back-link">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
       Back to Dashboard
     </a>
@@ -135,7 +135,7 @@
         <h2 class="section-title">
           <span class="orange-icon">🍕</span> <span id="recs-title">Your Top Picks</span>
         </h2>
-        <a href="explore.html" class="view-all">View All</a>
+        <a href="/pages/explore.html" class="view-all">View All</a>
       </div>
 
       <div id="recs-grid" class="recs-grid">
@@ -272,7 +272,7 @@
   </div>
 
   <!-- Supabase + Profile Script -->
-  <script type="module" src="js/supabase.js"></script>
-  <script type="module" src="js/profile.js"></script>
+  <script type="module" src="/src/js/supabase.js"></script>
+  <script type="module" src="/src/js/profile.js"></script>
 </body>
 </html>
