@@ -51,16 +51,20 @@ Then open **http://localhost:5173** in your browser.
 
 ```
 BiteMap/
-├── index.html          # Landing page
-├── explore.html        # Restaurant search & discovery
-├── restaurant.html     # Individual restaurant detail page
-├── dashboard.html      # Personal activity dashboard
-├── profile.html        # User profile page
-├── friends.html        # Friends & social features
-├── css/                # Page-level stylesheets
-├── js/                 # Client-side JavaScript modules
-├── assets/             # Images and static assets
+├── public/
+│   └── assets/         # Images and static assets
+├── src/
+│   ├── css/            # Page-level stylesheets
+│   └── js/             # Client-side JavaScript modules
+├── pages/
+│   ├── explore.html    # Restaurant search & discovery
+│   ├── restaurant.html # Individual restaurant detail page
+│   ├── dashboard.html  # Personal activity dashboard
+│   ├── profile.html    # User profile page
+│   └── friends.html    # Friends & social features
+├── data/               # Local datasets (e.g. initial CSV seeds)
 ├── db/                 # Database schema / seed scripts
+├── index.html          # Landing page
 ├── vite.config.js      # Vite bundler configuration
 └── package.json        # npm config & scripts
 ```
