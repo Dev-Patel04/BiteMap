@@ -6,11 +6,11 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        dashboard: resolve(__dirname, 'dashboard.html'),
-        explore: resolve(__dirname, 'explore.html'),
-        friends: resolve(__dirname, 'friends.html'),
-        profile: resolve(__dirname, 'profile.html'),
-        restaurant: resolve(__dirname, 'restaurant.html'),
+        dashboard: resolve(__dirname, 'pages/dashboard.html'),
+        explore: resolve(__dirname, 'pages/explore.html'),
+        friends: resolve(__dirname, 'pages/friends.html'),
+        profile: resolve(__dirname, 'pages/profile.html'),
+        restaurant: resolve(__dirname, 'pages/restaurant.html'),
       }
     }
   }

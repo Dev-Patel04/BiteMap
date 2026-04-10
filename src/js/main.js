@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // Success! Redirect.
           // If signup, user might need to check email depending on supabase settings, 
           // but we'll try to redirect them to dashboard either way for now.
-          window.location.href = 'dashboard.html';
+          window.location.href = '/pages/dashboard.html';
         }
       } catch (err) {
         errorEl.textContent = 'An unexpected error occurred.';
